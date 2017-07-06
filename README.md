@@ -1,3 +1,3 @@
 # edgee
 
-# R package
+R package
