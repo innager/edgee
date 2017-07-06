@@ -86,8 +86,9 @@ tailDiag <- function(stats, n, type = "short", df = NULL, moder = FALSE,
 		}
 	} else {
 		# extract all the needed variables from the named vector
+	  vars <- gsub("\\..*", "", names(stats))  # remove everything after dot
 		for (i in 1:length(stats)) {
-			assign(names(stats)[i], stats[i])
+			assign(vars[i], stats[i])
 		}
 	}
 	if (is.null(df)) {

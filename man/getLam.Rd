@@ -7,7 +7,7 @@
 getLam(mu)
 }
 \arguments{
-\item{mu}{vector of 2 - 6 central moments.}
+\item{mu}{vector of 2nd - 6th central moments.}
 }
 \value{
 A named vector of 3rd to 6th scaled cumulants. The names of the

@@ -73,7 +73,9 @@ smpStats <- function(smp, a = NULL, unbiased.mom = TRUE, type = NULL,
       if (is.null(varpost)) stop("Please provide posterior variance")
       mu[1] <- varpost
       A <- (d0*s20 + n*mu[1])/(d0 + n - 1)
+      names(A) <- NULL  # remove carryover from mu
       B <- n/(d0 + n - 1)
+      other.stats <- c(A, B, d0)
       return(c(mu, A = A, B = B, d0 = d0))
     }
   }
@@ -91,6 +93,7 @@ smpStats <- function(smp, a = NULL, unbiased.mom = TRUE, type = NULL,
     }
     if (!moder) {
       A <- Cxy*(bx + by)*mu[1]
+      names(A) <- NULL  # remove carryover from mu
       stats <- rep(mu, 2)
       names(stats) <- c(paste("mu_x", 2:6, sep = ""), 
                         paste("mu_y", 2:6, sep = ""))
@@ -102,6 +105,7 @@ smpStats <- function(smp, a = NULL, unbiased.mom = TRUE, type = NULL,
       mu[1] <- varpost
       dg <- nx + ny - 2
       A <- (bx + by)*(d0*s20 + Cxy*dg*mu[1])/(d0 + dg)
+      names(A) <- NULL  # remove carryover from mu
       Bx <- Bx*dg/(d0 + dg)
       By <- By*dg/(d0 + dg)
       stats <- rep(mu, 2)
@@ -127,6 +131,8 @@ smpStats <- function(smp, a = NULL, unbiased.mom = TRUE, type = NULL,
       mux <- getMomEdgeBias(smpx)
       muy <- getMomEdgeBias(smpy)
     }
+    A <- Cx*bx*mux[1] + Cy*by*muy[1]
+    names(A) <- NULL  # remove carryover from mu
     stats <- c(mux, muy)
     names(stats) <- c(paste("mu_x", 2:6, sep = ""), 
                       paste("mu_y", 2:6, sep = ""))

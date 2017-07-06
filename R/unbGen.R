@@ -251,11 +251,12 @@ getMomEdgeUnb2 <- function(smp, a) {
 #' Calculate skewness, kurtosis, and 5th and 6th scaled cumulants from central
 #' moments or their estimates.
 #' 
-#' @param mu vector of 2 - 6 central moments.
+#' @param mu vector of 2nd - 6th central moments.
 #' @return A named vector of 3rd to 6th scaled cumulants. The names of the
 #'   elements are \code{"lam3", "lam4", "lam5", "lam6"}.
 #' @export
 getLam <- function(mu) {
+  mu <- c(0, mu)  # to make index = order
   lam <- numeric(4)
   lam[1] <- mu[3]/mu[2]^(3/2)
   lam[2] <- mu[4]/mu[2]^2 - 3
