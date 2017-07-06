@@ -135,6 +135,9 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
 		           side = as.character(side), ncheck = as.integer(ncheck), 
 		           lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
 		           t.ord = as.double(t.ord), pval = as.double(rep(0, m*5)))
+		  if (side == "two-sided") {
+		    co$pval  <- 2*co$pval
+		  }
 		  names(co$pval) <- c("t-dist",  paste("term",  1:4, sep = ""))
 		  return(co$pval)
 		}
