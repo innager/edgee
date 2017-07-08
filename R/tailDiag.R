@@ -81,7 +81,7 @@ tailDiag <- function(stats, n, type = "short", df = NULL, moder = FALSE,
 			stop("no names provided for stats")
 		} else {
 			if (verbose) {
-				warning("no names provided for stats; assumed to be scaled cumulants")
+				message("no names provided for stats; assumed to be scaled cumulants")
 			}
 		}
 	} else {

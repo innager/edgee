@@ -41,8 +41,7 @@
 #' @param alpha significance level.
 #' @param unbiased.mom \code{logical} value indicating if unbiased estimators 
 #'   for third through sixth central moments should be used. Defaults to 
-#'   \code{TRUE} for one-sample and \code{FALSE} for two-sample tests (for Welch
-#'   t-test the default is \code{TRUE}).
+#'   \code{TRUE}.
 #' @param ncheck number of intervals for tail diagnostic.
 #' @param lim tail region for tail diagnostic. Provide the endpoints for the 
 #'   right tail (positive values).
@@ -102,10 +101,10 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
 		}
   }
 	
-	if (is.null(unbiased.mom)) {
-	  unbiased.mom <- ifelse(type %in% c("one-sample", "Welch", "welch"), 
-	                         TRUE, FALSE)
-	}
+#	if (is.null(unbiased.mom)) {
+#	  unbiased.mom <- ifelse(type %in% c("one-sample", "Welch", "welch"), 
+#	                         TRUE, FALSE)
+#	}
 
 	if (type %in% c("welch", "Welch")) {
 	  if (is.null(a) | length(unique(a)) != 2) stop("a does not match test type")

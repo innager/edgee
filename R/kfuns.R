@@ -7,26 +7,37 @@
 #'
 He0  <- function(x) 1
 #' @rdname Hermite
+#' @export
 He1  <- function(x) x
 #' @rdname Hermite
+#' @export
 He2  <- function(x) x^2 - 1
 #' @rdname Hermite
+#' @export
 He3  <- function(x) x^3 - 3*x
 #' @rdname Hermite
+#' @export
 He4  <- function(x) x^4 - 6*x^2 + 3
 #' @rdname Hermite
+#' @export
 He5  <- function(x) x^5 - 10*x^3 + 15*x
 #' @rdname Hermite
+#' @export
 He6  <- function(x) x^6 - 15*x^4 + 45*x^2 - 15
 #' @rdname Hermite
+#' @export
 He7  <- function(x) x^7 - 21*x^5 + 105*x^3 - 105*x
 #' @rdname Hermite
+#' @export
 He8  <- function(x) x^8 - 28*x^6 + 210*x^4 - 420*x^2 + 105
 #' @rdname Hermite
+#' @export
 He9  <- function(x) x^9 - 36*x^7 + 378*x^5 - 1260*x^3 + 945*x
 #' @rdname Hermite
+#' @export
 He10 <- function(x) x^10 - 45*x^8 + 630*x^6 - 3150*x^4 + 4725*x^2 - 945
 #' @rdname Hermite
+#' @export
 He11 <- function(x) x^11 - 55*x^9 + 990*x^7 - 6930*x^5 + 17325*x^3 - 10395*x
 
 #' \code{k()} functions for Edgeworth expansions - one-sample
@@ -47,23 +58,28 @@ He11 <- function(x) x^11 - 55*x^9 + 990*x^7 - 6930*x^5 + 17325*x^3 - 10395*x
 #'   
 #' @return A calculated value for a respective component.
 #' @rdname kfuns1
+#' @export
 K12one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   -1/2*B*mu3/A^(3/2)
 }
 #' @rdname kfuns1
+#' @export
 K13one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   -1/16*(6*(8*mu2*mu3 - mu5)*A*B^2 - 15*(mu2^2*mu3 - mu3*mu4)*B^3 -
            8*A^2*B*mu3)/A^(7/2)
 }
 #' @rdname kfuns1
+#' @export
 K21one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   mu2/A
 }	
 #' @rdname kfuns1
+#' @export
 K22one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   1/4*(4*(4*mu2^2 - mu4)*A*B - (4*mu2^3 - 7*mu3^2 - 4*mu2*mu4)*B^2)/A^3
 }
 #' @rdname kfuns1
+#' @export
 K23one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   -1/16*(16*(3*mu2^2 - mu4)*A^3*B - 8*(58*mu2^3 - 19*mu3^2 - 30*mu2*mu4 +
                                          2*mu6)*A^2*B^2 + 2*(112*mu2^4 - 360*mu2*mu3^2 - 144*mu2^2*mu4 + 24*mu4^2 + 
@@ -71,21 +87,25 @@ K23one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
                                                                                                     16*mu2*mu4^2 - (32*mu2^3 - 59*mu3^2)*mu4)*B^4)/A^5
 }
 #' @rdname kfuns1
+#' @export
 K31one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   -(3*B*mu2 - A)*mu3/A^(5/2)
 }	
 #' @rdname kfuns1
+#' @export
 K32one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   1/8*(12*(13*mu2*mu3 - mu5)*A^2*B - 3*(175*mu2^2*mu3 - 31*mu3*mu4 -
                                           12*mu2*mu5)*A*B^2 + (123*mu2^3*mu3 - 83*mu3^3 -
                                                                  123*mu2*mu3*mu4)*B^3)/A^(9/2)
 }	
 #' @rdname kfuns1
+#' @export
 K41one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   -((3*mu2^2 - mu4)*A^2 - 6*(3*mu2^3 - mu3^2 - mu2*mu4)*A*B + 3*(mu2^4 -
                                                                    6*mu2*mu3^2 - mu2^2*mu4)*B^2)/A^4
 }
 #' @rdname kfuns1
+#' @export
 K42one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   -1/8*(16*(42*mu2^3 - 13*mu3^2 - 19*mu2*mu4 + mu6)*A^3*B - 12*(284*mu2^4 - 
                                                                   266*mu2*mu3^2 - 172*mu2^2*mu4 + 12*mu4^2 + 21*mu3*mu5 +
@@ -95,6 +115,7 @@ K42one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
                                                                              39*mu2*mu3^2)*mu4)*B^4)/A^6
 }	
 #' @rdname kfuns1
+#' @export
 K51one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   -1/2*(2*(10*mu2*mu3 - mu5)*A^3 - 10*(35*mu2^2*mu3 - 5*mu3*mu4 -
                                          2*mu2*mu5)*A^2*B + 15*(56*mu2^3*mu3 - 7*mu3^3 - 16*mu2*mu3*mu4 -
@@ -102,6 +123,7 @@ K51one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
                                                                                              10*mu2^2*mu3*mu4)*B^3)/A^(11/2)
 }	
 #' @rdname kfuns1
+#' @export
 K61one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
   1/2*(2*(30*mu2^3 - 10*mu3^2 - 15*mu2*mu4 + mu6)*A^4 - 30*(48*mu2^4 -
                                                               40*mu2*mu3^2 - 27*mu2^2*mu4 + 2*mu4^2 + 3*mu3*mu5 + mu2*mu6)*A^3*B +
@@ -132,11 +154,13 @@ K61one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
 #' 
 #' @return A calculated value for a respective component.
 #' @rdname kfuns2
+#' @export
 K12two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   -1/2*(B_x*b_x*mu_x3 - B_y*b_y*mu_y3)/A^(3/2)
 }
 #' @rdname kfuns2
+#' @export
 K13two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   1/16*(15*B_x^3*b_x^2*mu_x2^2*mu_x3 + 15*B_x*B_y^2*b_x*b_y*mu_x3*mu_y2^2
@@ -148,11 +172,13 @@ K13two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
           15*(B_x*B_y^2*b_x*b_y*mu_x3 - B_y^3*b_y^2*mu_y3)*mu_y4)/A^(7/2)
 }
 #' @rdname kfuns2
+#' @export
 K21two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   (b_x*mu_x2 + b_y*mu_y2)/A
 }
 #' @rdname kfuns2
+#' @export
 K22two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   -1/4*(4*B_x^2*b_x^2*mu_x2^3 + 4*B_y^2*b_x*b_y*mu_x2*mu_y2^2 +
@@ -165,6 +191,7 @@ K22two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                                                                                                                                                    B_y^2*b_y^2*mu_y2)*mu_y4)/A^3
 }
 #' @rdname kfuns2
+#' @export
 K23two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   1/16*(48*B_x^4*b_x^3*mu_x2^5 + 48*B_y^4*b_x*b_y^2*mu_x2*mu_y2^4 +
@@ -218,6 +245,7 @@ K23two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                      B_x^2*B_y^2*b_x*b_y^2*mu_x4)*mu_y2)*mu_y4)/A^5
 }
 #' @rdname kfuns2
+#' @export
 K31two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   -(3*B_x*b_x^2*mu_x2*mu_x3 + 3*B_x*b_x*b_y*mu_x3*mu_y2 - (b_x^2*mu_x3 -
@@ -252,6 +280,7 @@ K32two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                 (B_y^3*b_x*b_y^2*mu_x2 + B_y^3*b_y^3*mu_y2)*mu_y3)*mu_y4)/A^(9/2)
 }
 #' @rdname kfuns2
+#' @export
 K41two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   -(3*B_x^2*b_x^3*mu_x2^4 + 6*B_y^2*b_x*b_y^2*mu_x2*mu_y2^3 +
@@ -271,6 +300,7 @@ K41two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                                                                                                   2*B_y^2*b_x*b_y^2*mu_x2*mu_y2 + B_y^2*b_y^3*mu_y2^2)*mu_y4)/A^4
 }
 #' @rdname kfuns2
+#' @export
 K42two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   1/8*(192*B_x^4*b_x^4*mu_x2^6 + 384*B_y^4*b_x*b_y^3*mu_x2*mu_y2^5 +
@@ -386,6 +416,7 @@ K42two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                      B_x*B_y^3*b_x*b_y^3*mu_x3*mu_y2)*mu_y3)*mu_y4)/A^6
 }
 #' @rdname kfuns2
+#' @export
 K51two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   1/2*(150*B_x^3*b_x^4*mu_x2^4*mu_x3 +
@@ -440,6 +471,7 @@ K51two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                                                        B_y^3*b_y^4*mu_y2^2)*mu_y3)*mu_y4)/A^(11/2)
 }
 #' @rdname kfuns2
+#' @export
 K61two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   1/2*(180*B_x^4*b_x^5*mu_x2^7 + 540*B_y^4*b_x*b_y^4*mu_x2*mu_y2^6 +

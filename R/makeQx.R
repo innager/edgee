@@ -43,7 +43,7 @@ makeQx <- function(stats, type = "short", r = NULL, verbose = TRUE) {
       stop("no names provided for stats")
     } else {
       if (verbose) {
-        warning("no names provided for stats; assumed to be scaled cumulants")
+        message("no names provided for stats; assumed to be scaled cumulants")
       }	
       for (i in 1:4) {
         assign(paste("lam", i + 2, sep = ""), stats[i])

@@ -28,8 +28,7 @@ be specified.}
 
 \item{unbiased.mom}{\code{logical} value indicating if unbiased estimators 
 for third through sixth central moments should be used. Defaults to 
-\code{TRUE} for one-sample and \code{FALSE} for two-sample tests (for Welch
-t-test the default is \code{TRUE}).}
+\code{TRUE}.}
 
 \item{ncheck}{number of intervals for tail diagnostic.}
 

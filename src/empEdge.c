@@ -7,8 +7,7 @@
 /*-------------------------------------------------------------------------------*/
 /* returns p-values for 0 - 4 term expansions, ordinary and moderated t-statistic; 
    one- and two-sample design, *one_smp has to be either 1 or 0; 
-   if two-sided test, *alpha passed to C function is already divided by 2;
-   for two-sample: dat is a vector c(Y, X), cbind() for matrices; nc = c(ny, nx); 
+   for two-sample: dat is a vector c(Treat, Control), nc = c(ntreat, ncontrol); 
    switch X and Y because Edgeworth expansions are set up for Xbar - Ybar, 
                                       while regression is for Ybar - Xbar        */
 /*-------------------------------------------------------------------------------*/
