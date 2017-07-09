@@ -8,7 +8,7 @@ M3two(m3, n_x, n_y)
 }
 \arguments{
 \item{m3}{naive biased third central moment estimate \eqn{m_3 = 1/(n_x + n_y)
-\sum_{i = 1}^n_x ((X_i - \bar{X})^3 + \sum_{i = 1}^n_y ((Y_i -
+\sum_{i = 1}^{n_x} ((X_i - \bar{X})^3 + \sum_{i = 1}^{n_y} ((Y_i -
 \bar{Y})^3}{m[3] = mean(c((X - X-bar)^3, (Y - Y-bar)^3))} for vectors
 \code{X} and \code{Y}.}
 

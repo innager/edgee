@@ -26,9 +26,14 @@ M2pow2two <- function(m2, m4, n_x, n_y) n_x*n_y*(-m2^2*(n_x^2 + 2*n_x*n_y + n_y^
 M5two <- function(m2, m3, m5, n_x, n_y) n_x^2*n_y^2*(10*m2*m3*(n_x^2 + 2*n_x*n_y + n_y^2)*(-2*n_x^3*n_y^3 + 5*n_x^3*n_y^2 - 8*n_x^3*n_y + 4*n_x^3 + 5*n_x^2*n_y^3 - 8*n_x*n_y^3 + 4*n_y^3) + m5*n_x*n_y*(n_x + n_y)*(n_x^4*n_y^2 + 2*n_x^3*n_y^3 - 12*n_x^3*n_y^2 + 2*n_x^3*n_y + n_x^2*n_y^4 - 12*n_x^2*n_y^3 + 60*n_x^2*n_y^2 - 42*n_x^2*n_y + 20*n_x^2 + 2*n_x*n_y^3 - 42*n_x*n_y^2 + 20*n_y^2))/(10*(n_x^3*n_y^2 + n_x^2*n_y^3 - 8*n_x^2*n_y^2 + 5*n_x^2*n_y - 2*n_x^2 + 5*n_x*n_y^2 - 2*n_y^2)*(-2*n_x^3*n_y^3 + 5*n_x^3*n_y^2 - 8*n_x^3*n_y + 4*n_x^3 + 5*n_x^2*n_y^3 - 8*n_x*n_y^3 + 4*n_y^3) + (n_x^4*n_y^3 + n_x^3*n_y^4 - 10*n_x^3*n_y^3 + 10*n_x^3*n_y^2 - 10*n_x^3*n_y + 4*n_x^3 + 10*n_x^2*n_y^3 - 10*n_x*n_y^3 + 4*n_y^3)*(n_x^4*n_y^2 + 2*n_x^3*n_y^3 - 12*n_x^3*n_y^2 + 2*n_x^3*n_y + n_x^2*n_y^4 - 12*n_x^2*n_y^3 + 60*n_x^2*n_y^2 - 42*n_x^2*n_y + 20*n_x^2 + 2*n_x*n_y^3 - 42*n_x*n_y^2 + 20*n_y^2))
 #' @family unbiased estimates
 #' @inherit M6two title description params
-#' @param m5 naive biased fifth central moment estimate \eqn{m_5 = 1/(n_x + n_y) \sum_{i = 1}^n_x ((X_i - \bar{X})^5 + \sum_{i = 1}^n_y ((Y_i - \bar{Y})^5}{m[5] = mean(c((X - X-bar)^5, (Y - Y-bar)^5))} for vectors \code{X} and \code{Y}.
+#' @param m5 naive biased fifth central moment estimate \eqn{m_5 = 1/(n_x + n_y)
+#'   \sum_{i = 1}^{n_x} ((X_i - \bar{X})^5 + \sum_{i = 1}^{n_y} ((Y_i -
+#'   \bar{Y})^5}{m[5] = mean(c((X - X-bar)^5, (Y - Y-bar)^5))} for vectors
+#'   \code{X} and \code{Y}.
 #' @export
-#' @return Pooled estimate of a product of second and third central moments \eqn{\mu_2 \mu_3}{mu[2] mu[3]}, where \eqn{\mu_2}{mu[2]} and \eqn{\mu_3}{mu[3]} are second and third central moments respectively. 
+#' @return Pooled estimate of a product of second and third central moments
+#'   \eqn{\mu_2 \mu_3}{mu[2] mu[3]}, where \eqn{\mu_2}{mu[2]} and
+#'   \eqn{\mu_3}{mu[3]} are second and third central moments respectively.
 M2M3two <- function(m2, m3, m5, n_x, n_y) n_x^2*n_y^2*(m2*m3*(n_x^2 + 2*n_x*n_y + n_y^2)*(n_x^4*n_y^3 + n_x^3*n_y^4 - 10*n_x^3*n_y^3 + 10*n_x^3*n_y^2 - 10*n_x^3*n_y + 4*n_x^3 + 10*n_x^2*n_y^3 - 10*n_x*n_y^3 + 4*n_y^3) - m5*n_x*n_y*(n_x + n_y)*(n_x^3*n_y^2 + n_x^2*n_y^3 - 8*n_x^2*n_y^2 + 5*n_x^2*n_y - 2*n_x^2 + 5*n_x*n_y^2 - 2*n_y^2))/(10*(n_x^3*n_y^2 + n_x^2*n_y^3 - 8*n_x^2*n_y^2 + 5*n_x^2*n_y - 2*n_x^2 + 5*n_x*n_y^2 - 2*n_y^2)*(-2*n_x^3*n_y^3 + 5*n_x^3*n_y^2 - 8*n_x^3*n_y + 4*n_x^3 + 5*n_x^2*n_y^3 - 8*n_x*n_y^3 + 4*n_y^3) + (n_x^4*n_y^3 + n_x^3*n_y^4 - 10*n_x^3*n_y^3 + 10*n_x^3*n_y^2 - 10*n_x^3*n_y + 4*n_x^3 + 10*n_x^2*n_y^3 - 10*n_x*n_y^3 + 4*n_y^3)*(n_x^4*n_y^2 + 2*n_x^3*n_y^3 - 12*n_x^3*n_y^2 + 2*n_x^3*n_y + n_x^2*n_y^4 - 12*n_x^2*n_y^3 + 60*n_x^2*n_y^2 - 42*n_x^2*n_y + 20*n_x^2 + 2*n_x*n_y^3 - 42*n_x*n_y^2 + 20*n_y^2))
   
 

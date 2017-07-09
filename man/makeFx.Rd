@@ -8,28 +8,27 @@ makeFx(stats, n, r = NULL, type = "short", base = "normal", df = NULL,
   moder = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{stats}{named vector of distribution parameters or estimates needed for
-Edgeworth expansion. If no names for the vector are provided and the type
-is \code{"short"}, elements are assumed to be scaled cumulants
-\eqn{\lambda} (3 - 6). If the elements are named, the order of the elements
-is arbitrary. Required names: \itemize{ \item for ordinary one-sample
-t-statistic only (\code{type = "short"}): \code{"lam3", "lam4", "lam5",
-"lam6"} (scaled cumulants); \item for more complicated one-sample versions,
-such as a moderated t-statistic (\code{type = "one-sample"}): \code{"mu2",
-"mu3", "mu4", "mu5", "mu6"} (central moments), \code{"A"}, and \code{"B"}; 
-\item for a two-sample t-statistic (\code{type = "two-sample"}):
-\code{"mu_x2", "mu_x3", "mu_x4", "mu_x5", "mu_x6"} (central moments for a
-treatment group), \code{"mu_y2", "mu_y3", "mu_y4", "mu_y5", "mu_y6"}
-(central moments for a control group), \code{"A", "B_x", "B_y", "b_x"}, and
-\code{"b_y"}. Note that
-if the same distribution is assumed for the two groups, the values for
-central moments for these groups should be the same (e.g. pooled variance
-for a second moment). \item  optionally for a moderated t-statistic: \code{"d0"}
-(prior degrees of freedom). Ignored if \code{df} is provided. }}
+\item{stats}{named vector of distribution parameters or estimates needed for 
+Edgeworth expansion. If no names for the vector are provided and the type is
+\code{"short"}, elements are assumed to be scaled cumulants \eqn{\lambda} (3
+- 6). If the elements are named, the order of the elements is arbitrary. 
+Required names: \itemize{ \item for ordinary one-sample t-statistic only 
+(\code{type = "short"}): \code{"lam3", "lam4", "lam5", "lam6"} (scaled 
+cumulants); \item for more complicated one-sample versions, such as a 
+moderated t-statistic (\code{type = "one-sample"}): \code{"mu2", "mu3", 
+"mu4", "mu5", "mu6"} (central moments), \code{"A"}, and \code{"B"}; \item 
+for a two-sample t-statistic (\code{type = "two-sample"}): \code{"mu_x2", 
+"mu_x3", "mu_x4", "mu_x5", "mu_x6"} (central moments for a treatment group),
+\code{"mu_y2", "mu_y3", "mu_y4", "mu_y5", "mu_y6"} (central moments for a 
+control group), \code{"A", "B_x", "B_y", "b_x"}, and \code{"b_y"}. Note that
+if the same distribution is assumed for the two groups, the values for 
+central moments for these groups should be the same (e.g. pooled variance 
+for a second moment). \item  optionally for a moderated t-statistic: 
+\code{"d0"} (prior degrees of freedom). Ignored if \code{df} is provided. }}
 
-\item{n}{a single value for a sample size summary to be used in Edgeworth
-expansion. \strong{Important:} an average (not sum!) of two group sizes for a
-two-sample test.}
+\item{n}{a single value for a sample size summary to be used in Edgeworth 
+expansion. \strong{Important:} an average (not sum!) of two group sizes for 
+a two-sample test.}
 
 \item{r}{square root of variance adjustment. Provide if wish to use a value
 that is different from the one that will be calculated from \code{stats}
@@ -53,12 +52,11 @@ If not provided, \code{df} will be calculated as \code{n - 1} for
 TRUE}), the value of prior degrees of freedom \code{stats["d0"]} will be 
 added.}
 
-\item{moder}{\code{logical} value for calculating augmented degrees of
-freedom for a moderated t-statistic; if \code{TRUE}, the value for prior
-degrees of freedom shoud be included in \code{stats}. Ignored if \code{df}
-is provided.}
+\item{moder}{\code{logical} value for calculating augmented degrees of freedom
+for a moderated t-statistic; if \code{TRUE}, the value for prior degrees of 
+freedom shoud be included in \code{stats}. Ignored if \code{df} is provided.}
 
-\item{verbose}{if \code{TRUE}, the warning message will be printed when the
+\item{verbose}{if \code{TRUE}, the warning message will be printed when the 
 elements of \code{stats} are not named.}
 }
 \value{

@@ -27,7 +27,7 @@ void empEdge(double *dat, int *nc, int *nr, double *d0, double *s20, double *alp
   double (*q1)(double, double *), (*q2)(double, double *), (*q3)(double, double *),
     (*q4)(double, double *);
   void (*getMu)(double *, double, double *),
-       (*getMu2)(double *, int, int, double *);  
+       (*getMu2)(double *, double, double, double *);  
   
   m = *nr;
   if (*one_smp) {
@@ -116,7 +116,7 @@ void empEdge(double *dat, int *nc, int *nr, double *d0, double *s20, double *alp
     /* if alpha < p[0] < 1 - alpha, don't use Edgeworth */
     if (*alpha < pM[0] && pM[0] < 1 - *alpha) {
       for (j = 0; j < 5; j++) {
-	pval[j*m + i]  = fmin(p[0],  1 - p[0]);  /* fill out pval */
+	pval[j*m + i]  = fmin(p[0],  1 - p[0]); /* fill out pval */
 	pvalM[j*m + i] = fmin(pM[0], 1 - pM[0]);
       }
       continue;                                 /* proceed with the next row of data */
@@ -257,7 +257,7 @@ void getm(double *smp, double n, double *mu)
 }
 
 /*
-void getm2(double *smp, int n_x, int n_y, double *mu)
+void getm2(double *smp, double n_x, double n_y, double *mu)
 {
   int i, j;
   double smpx[n_x], smpy[n_y], mx[5], my[5];
@@ -276,20 +276,22 @@ void getm2(double *smp, int n_x, int n_y, double *mu)
   }
   } */
     
-void getm2(double *smp, int n_x, int n_y, double *mu)
+void getm2(double *smp, double n_x, double n_y, double *mu)
 {
-  int i, j;
+  int i, j, nx, ny;
   double sumx, sumy, mx1, my1;
-  double smpx[n_x], smpy[n_y];
+  nx = (int) n_x;
+  ny = (int) n_y;
+  double smpx[nx], smpy[ny];
   
   mx1 = 0;
   my1 = 0;
-  for (i = 0; i < n_x; i++) {
+  for (i = 0; i < nx; i++) {
     smpx[i] = smp[i];
     mx1 += smpx[i];
   }
-  for (i = 0; i < n_y; i++) {
-    smpy[i] = smp[n_x + i];
+  for (i = 0; i < ny; i++) {
+    smpy[i] = smp[nx + i];
     my1 += smpy[i];
   }
   mx1 /= n_x;
@@ -298,10 +300,10 @@ void getm2(double *smp, int n_x, int n_y, double *mu)
   for (j = 0; j < 5; j++) {
     sumx = 0;
     sumy = 0;
-    for (i = 0; i < n_x; i++) {
+    for (i = 0; i < nx; i++) {
       sumx += pow(smpx[i] - mx1, j + 2);
     }
-    for (i = 0; i < n_y; i++) {
+    for (i = 0; i < ny; i++) {
       sumy += pow(smpy[i] - my1, j + 2);
     }
     mu[j] = (sumx + sumy)/(n_x + n_y);
@@ -316,7 +318,7 @@ void getMuBias(double *smp, double n, double *mu)
 }
 
 /* only second moment unbiased - pooled variance */
-void getMuBias2(double *smp, int n_x, int n_y, double *mu)
+void getMuBias2(double *smp, double n_x, double n_y, double *mu)
 {
   getm2(smp, n_x, n_y, mu);
   mu[0] *= (n_x + n_y)/(n_x + n_y - 2);
@@ -340,7 +342,7 @@ void getMuUnb(double *smp, double n, double *mu)
   mu[4] = 15*pow(m2, 3)*(3*n - 10)*pow(n, 2)/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 40*(pow(n, 2) - 6*n + 10)*pow(m3, 2)*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 15*(pow(n, 3) - 8*pow(n, 2) + 29*n - 40)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) + (pow(n, 4) - 9*pow(n, 3) + 31*pow(n, 2) - 39*n + 40)*m6*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5));
 }
 
-void getMuUnb2(double *smp, int n_x, int n_y, double *mu)
+void getMuUnb2(double *smp, double n_x, double n_y, double *mu)
 {
   double m2, m3, m4, m5, m6;
 

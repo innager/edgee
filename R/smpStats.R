@@ -7,9 +7,9 @@
 #'   observations (should contain two unique values). Treatment code is assumed
 #'   to have a higher numeric value than control (relevant for \code{type =
 #'   "Welch"}).
+#' @inheritParams empEdge
 #' @param unbiased.mom \code{logical} value indicating if unbiased estimators 
 #'   for third through sixth central moments should be used.
-#' @inheritParams empEdge
 #' @param moder \code{logical} value indicating if Edgeworth expansions for a
 #'   moderated t-statistic will be used. If \code{TRUE}, prior information
 #'   (\code{d0} and \code{s20}) and posterior variance should be provided.
@@ -38,7 +38,7 @@
 #'   \code{\link{makeQx}} for functions that use \code{stats} argument
 #'   corresponding to the output of \code{smpStats()}.
 #' @export
-smpStats <- function(smp, a = NULL, unbiased.mom = TRUE, type = NULL, 
+smpStats <- function(smp, a = NULL, type = NULL, unbiased.mom = TRUE,
                      moder = FALSE, d0 = NULL, s20 = NULL, varpost = NULL) {
   n <- length(smp)
   if (is.null(a)) {
@@ -117,6 +117,8 @@ smpStats <- function(smp, a = NULL, unbiased.mom = TRUE, type = NULL,
   
   if (type %in% c("welch", "Welch")) {
     if (is.null(a) | length(unique(a)) != 2) stop("a does not match test type")
+    bx <- n/nx
+    by <- n/ny
     Cx <- nx/(nx - 1)
     Cy <- ny/(ny - 1)
     Bx <- Cx*bx

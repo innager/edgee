@@ -8,21 +8,21 @@ M3pow2two(m2, m3, m4, m6, n_x, n_y)
 }
 \arguments{
 \item{m2}{naive biased variance estimate \eqn{m_2 = 1/(n_x + n_y) \sum_{i =
-1}^n_x ((X_i - \bar{X})^2 + \sum_{i = 1}^n_y ((Y_i - \bar{Y})^2}{m[2] =
+1}^{n_x} ((X_i - \bar{X})^2 + \sum_{i = 1}^{n_y} ((Y_i - \bar{Y})^2}{m[2] =
 mean(c((X - X-bar)^2, (Y - Y-bar)^2))} for vectors \code{X} and \code{Y}.}
 
 \item{m3}{naive biased third central moment estimate \eqn{m_3 = 1/(n_x + n_y)
-\sum_{i = 1}^n_x ((X_i - \bar{X})^3 + \sum_{i = 1}^n_y ((Y_i -
+\sum_{i = 1}^{n_x} ((X_i - \bar{X})^3 + \sum_{i = 1}^{n_y} ((Y_i -
 \bar{Y})^3}{m[3] = mean(c((X - X-bar)^3, (Y - Y-bar)^3))} for vectors
 \code{X} and \code{Y}.}
 
 \item{m4}{naive biased fourth central moment estimate \eqn{m_4 = 1/(n_x +
-n_y) \sum_{i = 1}^n_x ((X_i - \bar{X})^4 + \sum_{i = 1}^n_y ((Y_i -
+n_y) \sum_{i = 1}^{n_x} ((X_i - \bar{X})^4 + \sum_{i = 1}^{n_y} ((Y_i -
 \bar{Y})^4}{m[4] = mean(c((X - X-bar)^4, (Y - Y-bar)^4))} for vectors
 \code{X} and \code{Y}.}
 
 \item{m6}{naive biased sixth central moment estimate \eqn{m_6 = 1/(n_x + n_y)
-\sum_{i = 1}^n_x ((X_i - \bar{X})^6 + \sum_{i = 1}^n_y ((Y_i -
+\sum_{i = 1}^{n_x} ((X_i - \bar{X})^6 + \sum_{i = 1}^{n_y} ((Y_i -
 \bar{Y})^6}{m[6] = mean(c((X - X-bar)^6, (Y - Y-bar)^6))} for vectors
 \code{X} and \code{Y}.}
 

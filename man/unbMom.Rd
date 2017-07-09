@@ -13,27 +13,27 @@ unbMom(smp, order)
 orders will be included.}
 }
 \value{
-A named vector of estimates of central moments and their
-  powers and products up to \code{order}. The highest order available is 6th.
-  The names of the elements are \code{"M2", "M3", "M4", "M5", "M6"} for
-  corresponding central moments, \code{"M2M3", "M2M4"} for products of the
-  moments (second and third, second and fourth), and \code{"M2pow2",
-  "M2pow3", "M3pow2"} for powers of the moments - corresponding to estimates
-  of squared variance, cubed variance, and squared third moment.
+A named vector of estimates of central moments and their powers and
+  products up to \code{order}. The highest order available is 6th. The names
+  of the elements are \code{"M2", "M3", "M4", "M5", "M6"} for corresponding
+  central moments, \code{"M2M3", "M2M4"} for products of the moments (second
+  and third, second and fourth), and \code{"M2pow2", "M2pow3", "M3pow2"} for
+  powers of the moments - corresponding to estimates of squared variance,
+  cubed variance, and squared third moment.
 }
 \description{
 Calculate unbiased estimates of central moments and their powers and products
 up to specified order.
 }
 \details{
-Unbiased estimates up to the 6th order can be calculated. Second and third
-orders contain estimates of the variance and third central moment, fourth
-order includes estimates of fourth moment and squared variance
-(\eqn{\mu_2^2}{mu[2]^2}), fifth order - of fifth moment and a product of
-second and third moments (\eqn{\mu_2 \mu_3}{mu[2] mu[3]}), sixth order - of
-sixth moment, a product of second and fourth moments (\eqn{\mu_2 \mu_4}{mu[2]
-mu[4]}), squared third moment (\eqn{\mu_3^2}{mu[3]^2}), and cubed variance
-(\eqn{\mu_2^3}{mu[2]^3}).
+Unbiased estimates up to the 6th order can be calculated. Second and third 
+orders contain estimates of the variance and third central moment, fourth 
+order includes estimates of fourth moment and squared variance 
+(\eqn{\mu_2^2}{\mu[2]^2}), fifth order - of fifth moment and a product of 
+second and third moments (\eqn{\mu_2 \mu_3}{\mu[2] \mu[3]}), sixth order - of
+sixth moment, a product of second and fourth moments (\eqn{\mu_2
+\mu_4}{\mu[2] \mu[4]}), squared third moment (\eqn{\mu_3^2}{\mu[3]^2}), and
+cubed variance (\eqn{\mu_2^3}{\mu[2]^3}).
 }
 \examples{
 smp <- rgamma(10, shape = 3)

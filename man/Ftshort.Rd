@@ -19,9 +19,13 @@ Ft4(x, n, lam, r = 1, norm = FALSE, df = n - 1)
 \arguments{
 \item{x}{numeric vector of quantiles of sampling distribution.}
 
+\item{n}{sample size.}
+
 \item{lam}{a vector of scaled cumulants or their estimates, starting with 3rd
 (skewness). Term 1 needs a third cumulant only, term 2 - third and fourth 
 (kurtosis), and so on.}
+
+\item{r}{square root of variance adjustment (see \code{Details}).}
 
 \item{norm}{if \code{TRUE}, normal distribution is used as a base for 
 Edgeworth expansions, if \code{FALSE} - Student's t-distribution. Defaults 
@@ -35,7 +39,7 @@ The value of Edgeworth expansion of a corresponding order (\code{Ft1}
   for a 1-term or 2nd order EE and so on). (or values, one for each x?)
 }
 \description{
-Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order)
+Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) 
 for ordinary one-sample t-statistic (short version).
 }
 \details{

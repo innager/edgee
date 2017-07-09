@@ -115,7 +115,7 @@ q4k <- function(x, r, k12, k13, k22, k23, k31, k32, k41, k42, k51, k61) {
 
 #' Standalone Edgeworth expansion for ordinary one-sample t-statistic
 #' 
-#' Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order)
+#' Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) 
 #' for ordinary one-sample t-statistic (short version).
 #' 
 #' Higher-order approximations of the cumulative distribution function of a 
@@ -127,6 +127,8 @@ q4k <- function(x, r, k12, k13, k22, k23, k31, k32, k41, k42, k51, k61) {
 #' 
 #' @name Ftshort
 #' @inheritParams qfuns
+#' @param n sample size.
+#' @param r square root of variance adjustment (see \code{Details}).
 #' @param norm if \code{TRUE}, normal distribution is used as a base for 
 #'   Edgeworth expansions, if \code{FALSE} - Student's t-distribution. Defaults 
 #'   to \code{FALSE}.
@@ -166,34 +168,36 @@ Ft4 <- function(x, n, lam, r = 1, norm = FALSE, df = n - 1) {
     n^(-2)  *q4s(x/r, lam)*(norm*dnorm(x/r) + (1 - norm)*dt(x/r, df + 11))
 }	
 
-#'Standalone Edgeworth expansion for a test statistic - general case
-#'
-#'Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) for
-#'a general version of t-statistic and other test statistics.
-#'
-#'Higher-order approximations of the cumulative distribution function of a test
-#'statistic. These functions implement a general version of EE that can be used
-#'for any one- or two-sample t-statistic as well as for other test statistics.
-#'
-#'@name Ftgen
-#'@inheritParams Ftshort
-#'@param k12,k13,k22,k23,k31,k32,k41,k42,k51,k61 cumulant components - values 
-#'  calculated from sample statistics or distribution parameters.
-#'@param df degrees of freedom for Student's t-distribution if \code{norm = 
-#'  FALSE}. Provide a single value for the first order approximation (zero 
-#'  term).
-#'  
-#'@return The value of Edgeworth expansion of a corresponding order 
-#'  (\code{Ft1gen} for a 1-term or 2nd order EE and so on). (or values, one for 
-#'  each x?)
-#'  
-#'@seealso \code{\link{qgen}} for \code{q()} functions used in general case EE 
-#'  terms and \code{\link{Ftshort}} for a short version of EE. For creating EE 
-#'  as a simple function of \code{x}, see \code{\link{makeFx}}.
-#'  
+#' Standalone Edgeworth expansion for a test statistic - general case
+#' 
+#' Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order)
+#' for a general version of t-statistic and other test statistics.
+#' 
+#' Higher-order approximations of the cumulative distribution function of a test
+#' statistic. These functions implement a general version of EE that can be used
+#' for any one- or two-sample t-statistic as well as for other test statistics.
+#' 
+#' @name Ftgen
+#' @inheritParams Ftshort
+#' @param r sqare root of variance adjustment. The variance adjustment is 
+#'   generally equal to \code{k21}.
+#' @param k12,k13,k22,k23,k31,k32,k41,k42,k51,k61 cumulant components - values 
+#'   calculated from sample statistics or distribution parameters.
+#' @param df degrees of freedom for Student's t-distribution if \code{norm = 
+#'   FALSE}. Provide a single value for the first order approximation (zero 
+#'   term).
+#'   
+#' @return The value of Edgeworth expansion of a corresponding order 
+#'   (\code{Ft1gen} for a 1-term or 2nd order EE and so on). (or values, one for
+#'   each x?)
+#'   
+#' @seealso \code{\link{qgen}} for \code{q()} functions used in general case EE 
+#'   terms and \code{\link{Ftshort}} for a short version of EE. For creating EE 
+#'   as a simple function of \code{x}, see \code{\link{makeFx}}.
+#'   
 #' @examples 
 #' 
-#'@export
+#' @export
 Ft1gen <- function(x, n, r, k12, k31, norm = FALSE, df = NULL) {
   if (norm) pnorm(x/r)  + n^(-1/2)*q1k(x, r, k12, k31)*dnorm(x/r)
   else      pt(x/r, df) + n^(-1/2)*q1k(x, r, k12, k31)*dt(x/r, df + 2)                  

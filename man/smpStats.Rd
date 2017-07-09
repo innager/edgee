@@ -4,7 +4,7 @@
 \alias{smpStats}
 \title{Sample statistics for Edgeworth expansions}
 \usage{
-smpStats(smp, a = NULL, unbiased.mom = TRUE, type = NULL, moder = FALSE,
+smpStats(smp, a = NULL, type = NULL, unbiased.mom = TRUE, moder = FALSE,
   d0 = NULL, s20 = NULL, varpost = NULL)
 }
 \arguments{
@@ -15,13 +15,13 @@ observations (should contain two unique values). Treatment code is assumed
 to have a higher numeric value than control (relevant for \code{type =
 "Welch"}).}
 
-\item{unbiased.mom}{\code{logical} value indicating if unbiased estimators 
-for third through sixth central moments should be used.}
-
 \item{type}{type of the test with possible values \code{"one-sample"}, 
 \code{"two-sample"}, and \code{"Welch"}. For regular one- and two-sample 
 tests the value is inferred from \code{a} but for Welch t-test it needs to 
 be specified.}
+
+\item{unbiased.mom}{\code{logical} value indicating if unbiased estimators 
+for third through sixth central moments should be used.}
 
 \item{moder}{\code{logical} value indicating if Edgeworth expansions for a
 moderated t-statistic will be used. If \code{TRUE}, prior information

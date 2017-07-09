@@ -19,7 +19,7 @@ getMomEdgeUnb2(smp, a)
 \arguments{
 \item{smp}{sample.}
 
-\item{a}{vector of the same length as \code{smp} specifying categories of
+\item{a}{vector of the same length as \code{smp} specifying categories of 
 observations (should contain two unique values).}
 }
 \value{

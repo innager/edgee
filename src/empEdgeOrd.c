@@ -24,7 +24,7 @@ void empEdgeOrd(double *dat, int *nc, int *nr, double *alpha, int *one_smp, char
   double (*q1)(double, double *), (*q2)(double, double *), (*q3)(double, double *),
     (*q4)(double, double *);
   void (*getMu)(double *, double, double *),
-       (*getMu2)(double *, int, int, double *);  
+       (*getMu2)(double *, double, double, double *);  
   
   m = *nr;
   if (*one_smp) {
@@ -100,7 +100,7 @@ void empEdgeOrd(double *dat, int *nc, int *nr, double *alpha, int *one_smp, char
     /* if alpha < p[0] < 1 - alpha, don't use Edgeworth */
     if (*alpha < p[0] && p[0] < 1 - *alpha) {
       for (j = 0; j < 5; j++) {
-	pval[j*m + i]  = fmin(p[0],  1 - p[0]);  /* fill out pval */
+	pval[j*m + i]  = fmin(p[0],  1 - p[0]); /* fill out pval */
       }
       continue;                                 /* proceed with the next row of data */
     }

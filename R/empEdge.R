@@ -38,10 +38,10 @@
 #'   \code{"two-sample"}, and \code{"Welch"}. For regular one- and two-sample 
 #'   tests the value is inferred from \code{a} but for Welch t-test it needs to 
 #'   be specified.
-#' @param alpha significance level.
 #' @param unbiased.mom \code{logical} value indicating if unbiased estimators 
 #'   for third through sixth central moments should be used. Defaults to 
 #'   \code{TRUE}.
+#' @param alpha significance level.
 #' @param ncheck number of intervals for tail diagnostic.
 #' @param lim tail region for tail diagnostic. Provide the endpoints for the 
 #'   right tail (positive values).
@@ -56,27 +56,25 @@
 #'   
 #' @examples
 #' # Create, blin, data, maybe a few sets
-#' load("somedata")
-#' res <- empEdge(dat1smp)
-#' head(res)
-#' res <- empEdge(dat2smp, age)
-#' res <- empEdge(dat2smp, age, type = "Welch")
+#' #load("somedata")
+#' #res <- empEdge(dat1smp)
+#' #head(res)
+#' #res <- empEdge(dat2smp, age)
+#' #res <- empEdge(dat2smp, age, type = "Welch")
 #' 
 #' @export
 #' @useDynLib edgee
 
 empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL, 
-                    alpha = 0.05, unbiased.mom = NULL, ncheck = 50, 
+                    unbiased.mom = NULL, alpha = 0.05, ncheck = 50, 
                     lim = c(1, 10)) { 
   require(limma)
   
-  if (is.null(dim(dat)) | any(dim(dat) == 1)) {
-    n <- length(dat)
-    m <- 1
-  } else {
-    n <- ncol(dat)
-    m <- nrow(dat)
-  }
+  if (is.null(dim(dat)) || any(dim(dat) == 1)) {
+    dat <- matrix(dat, nrow = 1)
+  } 
+  n <- ncol(dat)
+  m <- nrow(dat)
 
   if (is.null(a)) {
   	type <- "one-sample"
@@ -90,8 +88,12 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
 		} else if (length(unique(a)) == 2) {
 			# assume treatment code has higher numeric value than control
 		  treat <- a == max(a)
-		  n <- c(sum(treat), sum(!treat))		  
-		  dat <- cbind(dat[, treat], dat[, !treat])
+		  n <- c(sum(treat), sum(!treat))	
+		  if (m == 1) {
+		    dat <- matrix(c(dat[, treat], dat[, !treat]), nrow = 1)
+		  } else {
+		    dat <- cbind(dat[, treat], dat[, !treat])
+		  }
 		  design.mat <- model.matrix(~ rep(1:0, n))
 			if (is.null(type)) {
 				type <- "two-sample"
@@ -108,13 +110,11 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
 
 	if (type %in% c("welch", "Welch")) {
 	  if (is.null(a) | length(unique(a)) != 2) stop("a does not match test type")
-	  fit <- lmFit(dat, design.mat, weights = NULL) 
-	  t.ord <- fit$coefficients[, 2]/(sqrt(sum(1/n))*fit$sigma)
 	  co <- .C("empEdgeWelch", dat = as.double(dat), 
 	           nc = as.integer(n), nr = as.integer(m), alpha = as.double(alpha), 
 	           side = as.character(side), ncheck = as.integer(ncheck), 
 	           lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
-	           t.ord = as.double(t.ord), pval = as.double(rep(0, m*5)))
+	           pval = as.double(rep(0, m*5)))
 	  if (side == "two-sided") {
 	    co$pval <- 2*co$pval
 	  }

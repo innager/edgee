@@ -52,6 +52,9 @@ makeQx <- function(stats, type = "short", r = NULL, verbose = TRUE) {
   } else {
     # extract all the needed variables from the named vector 
     vars <- gsub("\\..*", "", names(stats))  # remove everything after dot
+    if ("d0" %in% vars && is.infinite(stats[grepl("d0", vars)])) {
+      stop("prior degrees of freedom not finite")
+    }
     names(stats) <- NULL                     # to remove names from output
     for (i in 1:length(stats)) {
       assign(vars[i], stats[i])

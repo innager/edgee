@@ -4,8 +4,8 @@
 \alias{empEdge}
 \title{Empirical Edgeworth expansions for high-dimensional data analysis}
 \usage{
-empEdge(dat, a = NULL, side = "two-sided", type = NULL, alpha = 0.05,
-  unbiased.mom = NULL, ncheck = 50, lim = c(1, 10))
+empEdge(dat, a = NULL, side = "two-sided", type = NULL,
+  unbiased.mom = NULL, alpha = 0.05, ncheck = 50, lim = c(1, 10))
 }
 \arguments{
 \item{dat}{data matrix with rows corresponding to features. The number of 
@@ -24,11 +24,11 @@ values are \code{"left"} or \code{"right"}.}
 tests the value is inferred from \code{a} but for Welch t-test it needs to 
 be specified.}
 
-\item{alpha}{significance level.}
-
 \item{unbiased.mom}{\code{logical} value indicating if unbiased estimators 
 for third through sixth central moments should be used. Defaults to 
 \code{TRUE}.}
+
+\item{alpha}{significance level.}
 
 \item{ncheck}{number of intervals for tail diagnostic.}
 
@@ -74,10 +74,10 @@ is used for moderated t-statistic and unbiased/pooled for ordinary t.
 }
 \examples{
 # Create, blin, data, maybe a few sets
-load("somedata")
-res <- empEdge(dat1smp)
-head(res)
-res <- empEdge(dat2smp, age)
-res <- empEdge(dat2smp, age, type = "Welch")
+#load("somedata")
+#res <- empEdge(dat1smp)
+#head(res)
+#res <- empEdge(dat2smp, age)
+#res <- empEdge(dat2smp, age, type = "Welch")
 
 }

@@ -102,7 +102,6 @@ Fm4 <- function(x, n, lam) {
 #' 
 #' @name Fdiff
 #' @inheritParams pfuns
-#' @param n sample size (one-sample).
 #' @param nx number of observations in the first group (two-sample).
 #' @param ny number of observations in the second group (two-sample).
 #' @param lamx scaled cumulants of the distribution of the first group 

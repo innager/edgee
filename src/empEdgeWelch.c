@@ -12,14 +12,14 @@
 /*-------------------------------------------------------------------------------*/
 
 void empEdgeWelch(double *dat, int *nc, int *nr, double *alpha, char **side,
-		int *ncheck, double *lim, int *unb_mom, double *ts, double *pval)
+		int *ncheck, double *lim, int *unb_mom, double *pval)
 {
   int i, j, nx, ny, m, ldiag, rdiag;
   int nch = *ncheck + 1;
   int lthick[4], rthick[4];
   double n, Cx, Cy, A, bx, by, Bx, By, r, t, incr, xrtmp;
   double mux[5], muy[5], df[5], p[5], k[11], npow[5], xleft[nch], xright[nch],
-    yl0[nch], yr0[nch];
+    yl0[nch], yr0[nch], tAr[3];
   double smpx[*nc], smpy[*(nc + 1)]; 
   void (*getMu)(double *, double, double *);
   
@@ -70,7 +70,15 @@ void empEdgeWelch(double *dat, int *nc, int *nr, double *alpha, char **side,
   /* the main loop going through features/rows */
   /*-------------------------------------------*/
   for (i = 0; i < m; i++) {
-    t  = ts[i];
+    for (j = 0; j < nx; j++) {
+      smpx[j] = dat[j*m + i];                  /* X (treatment) */
+    }
+    for (j = nx; j < nx + ny; j++) {
+      smpy[j - nx] = dat[j*m + i];             /* Y (control)   */
+    }
+    get_tArWelch(smpx, smpy, nx, ny, bx, by, Bx, By, tAr);
+    t = tAr[0];
+    r = tAr[2];
     p[0] = pt(t/r, df[0], 1, 0);
 
     /* if alpha < p[0] < 1 - alpha, don't use Edgeworth */
@@ -78,7 +86,7 @@ void empEdgeWelch(double *dat, int *nc, int *nr, double *alpha, char **side,
       for (j = 0; j < 5; j++) {
 	pval[j*m + i] = fmin(p[0], 1 - p[0]);  /* fill out pval */
       }
-      continue;                                 /* proceed with the next row of data */
+      continue;                                /* proceed with the next row of data */
     }
 
     /* if one-sided test and t on the other side, don't need Edgeworth */
@@ -108,16 +116,9 @@ void empEdgeWelch(double *dat, int *nc, int *nr, double *alpha, char **side,
       rdiag = 1;
     }
 
-    for (j = 0; j < nx; j++) {
-      smpx[j] = dat[j*m + i];                  /* X (treatment) */
-    }
-    for (j = nx; j < nx + ny; j++) {
-      smpy[j - nx] = dat[j*m + i];             /* Y (control)   */
-    }
     getMu(smpx, nx, mux);
     getMu(smpy, ny, muy);
-    A = Bx*mux[0] + By*muy[0];
-    r = (bx*mux[0] + by*muy[0])/A;
+    A = tAr[1];
     calculateK2smp(mux, muy, A, Bx, By, bx, by, k);
     tailDiag("qk", k,  xleft, xright, yl0,  yr0,  npow, nch, df,  ldiag, rdiag,
 	     lthick,  rthick);
@@ -155,4 +156,33 @@ void empEdgeWelch(double *dat, int *nc, int *nr, double *alpha, char **side,
     }
   }
 }
+
+void get_tArWelch(double *smpx, double *smpy, double nx, double ny,
+	          double bx, double by, double Bx, double By, double *tAr) {
+  int i;
+  double mx1, mx2, my1, my2;
+
+  mx1 = 0;
+  mx2 = 0;
+  my1 = 0;
+  my2 = 0;
+  for (i = 0; i < nx; i++) {
+    mx1 += smpx[i];
+    mx2 += pow(smpx[i], 2);
+  }
+  for (i = 0; i < ny; i++) {
+    my1 += smpy[i];
+    my2 += pow(smpy[i], 2);
+  }
+  mx1 /= nx;
+  mx2 = (mx2 - nx*pow(mx1, 2))/(nx - 1);
+  my1 /= ny;
+  my2 = (my2 - ny*pow(my1, 2))/(ny - 1);
+  tAr[0] = (mx1 - my1)/sqrt(mx2/nx + my2/ny);  /* t-stat */
+  tAr[1] = Bx*mx2 + By*my2;                    /* A */
+  tAr[2] = sqrt((bx*mx2 + by*my2)/tAr[1]);     /* r */
+}
+    
+  
+  
 

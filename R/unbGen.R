@@ -3,26 +3,26 @@
 #' Calculate unbiased estimates of central moments and their powers and products
 #' up to specified order.
 #' 
-#' Unbiased estimates up to the 6th order can be calculated. Second and third
-#' orders contain estimates of the variance and third central moment, fourth
-#' order includes estimates of fourth moment and squared variance
-#' (\eqn{\mu_2^2}{mu[2]^2}), fifth order - of fifth moment and a product of
-#' second and third moments (\eqn{\mu_2 \mu_3}{mu[2] mu[3]}), sixth order - of
-#' sixth moment, a product of second and fourth moments (\eqn{\mu_2 \mu_4}{mu[2]
-#' mu[4]}), squared third moment (\eqn{\mu_3^2}{mu[3]^2}), and cubed variance
-#' (\eqn{\mu_2^3}{mu[2]^3}).
+#' Unbiased estimates up to the 6th order can be calculated. Second and third 
+#' orders contain estimates of the variance and third central moment, fourth 
+#' order includes estimates of fourth moment and squared variance 
+#' (\eqn{\mu_2^2}{\mu[2]^2}), fifth order - of fifth moment and a product of 
+#' second and third moments (\eqn{\mu_2 \mu_3}{\mu[2] \mu[3]}), sixth order - of
+#' sixth moment, a product of second and fourth moments (\eqn{\mu_2
+#' \mu_4}{\mu[2] \mu[4]}), squared third moment (\eqn{\mu_3^2}{\mu[3]^2}), and
+#' cubed variance (\eqn{\mu_2^3}{\mu[2]^3}).
 #' 
 #' @param smp sample.
 #' @param order highest order of the estimates to calclulate. Estimates of lower
 #'   orders will be included.
 #'   
-#' @return A named vector of estimates of central moments and their
-#'   powers and products up to \code{order}. The highest order available is 6th.
-#'   The names of the elements are \code{"M2", "M3", "M4", "M5", "M6"} for
-#'   corresponding central moments, \code{"M2M3", "M2M4"} for products of the
-#'   moments (second and third, second and fourth), and \code{"M2pow2",
-#'   "M2pow3", "M3pow2"} for powers of the moments - corresponding to estimates
-#'   of squared variance, cubed variance, and squared third moment.
+#' @return A named vector of estimates of central moments and their powers and
+#'   products up to \code{order}. The highest order available is 6th. The names
+#'   of the elements are \code{"M2", "M3", "M4", "M5", "M6"} for corresponding
+#'   central moments, \code{"M2M3", "M2M4"} for products of the moments (second
+#'   and third, second and fourth), and \code{"M2pow2", "M2pow3", "M3pow2"} for
+#'   powers of the moments - corresponding to estimates of squared variance,
+#'   cubed variance, and squared third moment.
 #' @seealso \code{\link{unbMom2smp}} for two-sample pooled estimates.
 #' @examples 
 #' smp <- rgamma(10, shape = 3)
@@ -83,20 +83,20 @@ unbMom <- function(smp, order) {
 
 #' Pooled central moment estimates - two-sample
 #' 
-#' Calculate unbiased pooled estimates of central moments and their powers and
+#' Calculate unbiased pooled estimates of central moments and their powers and 
 #' products up to specified order.
 #' 
-#' Pooled estimates up to the 6th order can be calculated. Second and third
-#' orders contain estimates of the variance and third central moment, fourth
-#' order includes estimates of fourth moment and squared variance
-#' (\eqn{\mu_2^2}{mu[2]^2}), fifth order - of fifth moment and a product of
-#' second and third moments (\eqn{\mu_2 \mu_3}{mu[2] mu[3]}), sixth order - of
-#' sixth moment, a product of second and fourth moments (\eqn{\mu_2 \mu_4}{mu[2]
-#' mu[4]}), squared third moment (\eqn{\mu_3^2}{mu[3]^2}), and cubed variance
-#' (\eqn{\mu_2^3}{mu[2]^3}).
+#' Pooled estimates up to the 6th order can be calculated. Second and third 
+#' orders contain estimates of the variance and third central moment, fourth 
+#' order includes estimates of fourth moment and squared variance 
+#' (\eqn{\mu_2^2}{\mu[2]^2}), fifth order - of fifth moment and a product of 
+#' second and third moments (\eqn{\mu_2 \mu_3}{\mu[2] \mu[3]}), sixth order - of
+#' sixth moment, a product of second and fourth moments (\eqn{\mu_2
+#' \mu_4}{\mu[2] \mu[4]}), squared third moment (\eqn{\mu_3^2}{\mu[3]^2}), and
+#' cubed variance (\eqn{\mu_2^3}{\mu[2]^3}).
 #' 
 #' @inherit unbMom params return
-#' @param a vector of the same length as \code{smp} specifying categories of
+#' @param a vector of the same length as \code{smp} specifying categories of 
 #'   observations (should contain two unique values).
 #' @seealso \code{\link{unbMom}} for one-sample unbiased estimates.
 #' @examples 
@@ -240,7 +240,7 @@ getMomEdgeUnb2 <- function(smp, a) {
   }
   M2 <- M2two(m2, nx, ny)
   M3 <- M3two(m3, nx, ny)
-  M4 <- M4tuwo(m2, m4, nx, ny)
+  M4 <- M4two(m2, m4, nx, ny)
   M5 <- M5two(m2, m3, m5, nx, ny)
   M6 <- M6two(m2, m3, m4, m6, nx, ny)
   return(c(mu2 = M2, mu3 = M3, mu4 = M4, mu5 = M5, mu6 = M6))

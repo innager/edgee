@@ -4,10 +4,12 @@
 void getMuBias(double *smp, double n, double *mu);
 void getMuUnb( double *smp, double n, double *mu);
 void getm(     double *smp, double n, double *mu);
-void getMuBias2(double *smp, int n_x, int n_y, double *mu);
-void getMuUnb2( double *smp, int n_x, int n_y, double *mu);
-void getm2(     double *smp, int n_x, int n_y, double *mu);
+void getMuBias2(double *smp, double n_x, double n_y, double *mu);
+void getMuUnb2( double *smp, double n_x, double n_y, double *mu);
+void getm2(     double *smp, double n_x, double n_y, double *mu);
 void getLambda(double *mu, double *lam);
+void get_tArWelch(double *smpx, double *smpy, double nx, double ny,
+                  double bx, double by, double Bx, double By, double *tAr);
 
 void calculateK1smp(double *mu, double A, double B, double *k);
 void calculateK2smp(double *mu_x, double *mu_y, double A, double B_x, double B_y,
@@ -26,7 +28,7 @@ double q2s(double x, double *args);
 double q3s(double x, double *args);
 double q4s(double x, double *args);
 
-double M3two(double m3, int n_x, int n_y);
-double M4two(double m2, double m4, int n_x, int n_y);
-double M5two(double m2, double m3, double m5, int n_x, int n_y);
-double M6two(double m2, double m3, double m4, double m6, int n_x, int n_y);
+double M3two(double m3, double n_x, double n_y);
+double M4two(double m2, double m4, double n_x, double n_y);
+double M5two(double m2, double m3, double m5, double n_x, double n_y);
+double M6two(double m2, double m3, double m4, double m6, double n_x, double n_y);

@@ -33,8 +33,6 @@ quantiles.}
 \item{varx}{variance of the first group (two-sample).}
 
 \item{vary}{variance of the second group (two-sample).}
-
-\item{n}{sample size (one-sample).}
 }
 \value{
 A vector of values of Edgeworth expansion of a corresponding order 

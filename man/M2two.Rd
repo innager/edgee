@@ -8,7 +8,7 @@ M2two(m2, n_x, n_y)
 }
 \arguments{
 \item{m2}{naive biased variance estimate \eqn{m_2 = 1/(n_x + n_y) \sum_{i =
-1}^n_x ((X_i - \bar{X})^2 + \sum_{i = 1}^n_y ((Y_i - \bar{Y})^2}{m[2] =
+1}^{n_x} ((X_i - \bar{X})^2 + \sum_{i = 1}^{n_y} ((Y_i - \bar{Y})^2}{m[2] =
 mean(c((X - X-bar)^2, (Y - Y-bar)^2))} for vectors \code{X} and \code{Y}.}
 
 \item{n_x}{number of observations in the first group.}

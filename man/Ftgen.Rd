@@ -20,6 +20,11 @@ Ft4gen(x, n, r, k12, k13, k22, k23, k31, k32, k41, k42, k51, k61,
 \arguments{
 \item{x}{numeric vector of quantiles of sampling distribution.}
 
+\item{n}{sample size.}
+
+\item{r}{sqare root of variance adjustment. The variance adjustment is 
+generally equal to \code{k21}.}
+
 \item{k12, k13, k22, k23, k31, k32, k41, k42, k51, k61}{cumulant components - values 
 calculated from sample statistics or distribution parameters.}
 
@@ -33,12 +38,12 @@ term).}
 }
 \value{
 The value of Edgeworth expansion of a corresponding order 
- (\code{Ft1gen} for a 1-term or 2nd order EE and so on). (or values, one for 
- each x?)
+  (\code{Ft1gen} for a 1-term or 2nd order EE and so on). (or values, one for
+  each x?)
 }
 \description{
-Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) for
-a general version of t-statistic and other test statistics.
+Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order)
+for a general version of t-statistic and other test statistics.
 }
 \details{
 Higher-order approximations of the cumulative distribution function of a test
@@ -50,6 +55,6 @@ for any one- or two-sample t-statistic as well as for other test statistics.
 }
 \seealso{
 \code{\link{qgen}} for \code{q()} functions used in general case EE 
- terms and \code{\link{Ftshort}} for a short version of EE. For creating EE 
- as a simple function of \code{x}, see \code{\link{makeFx}}.
+  terms and \code{\link{Ftshort}} for a short version of EE. For creating EE 
+  as a simple function of \code{x}, see \code{\link{makeFx}}.
 }
