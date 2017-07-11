@@ -24,8 +24,7 @@ q4s(x, lam)
 (kurtosis), and so on.}
 }
 \value{
-A vector of the same length as \code{x} containing the values of a 
-  mathematical function.
+A vector of the same length as \code{x}.
 }
 \description{
 Calculate values of \code{q(x)} used in terms of Edgeworth expansions (EE) 
@@ -35,16 +34,23 @@ for ordinary one-sample t-statistic.
 These functions implement a short version of EE, which can be used for 
 ordinary one-sample t-statistic. \code{q1s()} is used for term 1 (1-term 
 expansion is also referred to as a 2nd order expansion), \code{q2s()} for 
-term 2 and so on. They do not include variance adjustment \code{r^2}, which 
+term 2, and so on. They do not include variance adjustment \code{r^2}, which 
 is equal to 1 for a t-statistic with naive biased variance estimate and 
 \eqn{(n - 1)/n} for a standard t with unbiased variance estimate. For the 
 latter, use \code{q1s(x/r), q2s(x/r)}, etc.
 }
 \examples{
+# Gamma distribution with shape parameter shp
+shp <- 3
+ord <- 3:6                  # orders of scaled cumulants
+lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)
+x <- seq(-5, -2, by = 0.5)  # thicker tail
+q1s(x, lambdas)
 
 }
 \seealso{
 \code{\link{Ftshort}} for corresponding EE values and 
-  \code{\link{qgen}} for the general version of t-statistic as well as other
-  test statistics.
+  \code{\link{qgen}} for the general version of t-statistic as well as for 
+  other test statistics. For automated generalized verions of these functions
+  see \code{\link{makeQx}} and \code{\link{makeFx}}.
 }

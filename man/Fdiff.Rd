@@ -17,37 +17,47 @@ Fm3two(x, nx, ny, lamx, lamy, varx, vary)
 Fm4two(x, nx, ny, lamx, lamy, varx, vary)
 }
 \arguments{
-\item{x}{a numerical value (quantile of sampling distribution) or a vector of
-quantiles.}
+\item{x}{numeric vector of quantiles of sampling distribution.}
 
-\item{nx}{number of observations in the first group (two-sample).}
+\item{nx}{number of observations in the first group.}
 
-\item{ny}{number of observations in the second group (two-sample).}
+\item{ny}{number of observations in the second group.}
 
-\item{lamx}{scaled cumulants of the distribution of the first group 
-(two-sample).}
+\item{lamx}{scaled cumulants of the distribution of the first group.}
 
-\item{lamy}{scaled cumulants of the distribution of the second group 
-(two-sample).}
+\item{lamy}{scaled cumulants of the distribution of the second group.}
 
-\item{varx}{variance of the first group (two-sample).}
+\item{varx}{variance of the first group.}
 
-\item{vary}{variance of the second group (two-sample).}
+\item{vary}{variance of the second group.}
 }
 \value{
-A vector of values of Edgeworth expansion of a corresponding order 
-  (\code{Fm1} and \code{Fm1two} for a 1-term or 2nd order Edgeworth expansion
-  and so on). The length of the vector is the same as the length of \code{x}.
+A vector of the same length as \code{x} containing the values of 
+  Edgeworth expansion of a corresponding order (\code{Fm1two} for a 1-term or
+  2nd order EE, \code{Fm2two} for a 2-term EE, and so on).
 }
 \description{
-Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order)
-for the two-sample standardize difference in means.
+Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) 
+for the two-sample standardized difference in means.
 }
 \details{
 Higher-order approximations of the cumulative distribution function of the 
 two-sample standardized difference in means. Note that for a sample \eqn{X_1,
 \dots, X_{n_x}, Y_1, \dots, Y_{n_y}}{X[1], ..., X[n[x]], Y[1], ..., Y[n[y]]},
 \eqn{X} would correspond to treatment and \eqn{Y} to control.
+}
+\examples{
+# X: n1 gamma distributed iid random variables, centered
+# Y: n2 normally distributed iid random variables (standard normal) 
+n1 <- 8
+n2 <- 10
+shp <- 3
+ord <- 3:6                # orders of scaled cumulants
+lamx <- factorial(ord - 1)/shp^((ord - 2)/2)
+lamy <- rep(0, 4)
+x <- seq(2, 5, by = 0.5)  # thicker tail 
+1 - Fm1two(x, n1, n2, lamx, lamy, shp, 1)
+  
 }
 \seealso{
 \code{\link{Fmean}} for EE for one-sample standardized mean and 

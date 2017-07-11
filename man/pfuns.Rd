@@ -17,29 +17,33 @@ p3(x, lam)
 p4(x, lam)
 }
 \arguments{
-\item{x}{a numerical value (quantile of sampling distribution) or a vector of
-quantiles.}
+\item{x}{numeric vector of quantiles of sampling distribution.}
 
 \item{lam}{a vector of scaled cumulants or their estimates, starting with 3rd
 (skewness). Term 1 needs a third cumulant only, term 2 - third and fourth 
 (kurtosis), and so on.}
 }
 \value{
-A vector of values of a mathematical function, one for each quantile 
-  in \code{x}.
+A vector of the same length as \code{x}.
 }
 \description{
 Calculate values of \code{p(x)} used in terms of Edgeworth expansions (EE) 
 for a sample mean and a two-sample difference in means.
 }
 \details{
-\code{p1()} is used for term 1 (second order expansion), \code{p2()} for term
-2 and so on.
+\code{p1()} is used for term 1 (2nd order expansion), \code{p2()} for term 2,
+and so on.
 }
 \examples{
+# Gamma distribution with shape parameter shp
+shp <- 3
+ord <- 3:6                # orders of scaled cumulants
+lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)
+x <- seq(2, 5, by = 0.5)  # thicker tail
+p1(x, lambdas)
 
 }
 \seealso{
-\code{\link{Fmean}}, \code{\link{Fdiff}} for corresponding EE
+\code{\link{Fmean}}, \code{\link{Fdiff}} for corresponding EE 
   values.
 }

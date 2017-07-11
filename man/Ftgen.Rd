@@ -8,41 +8,43 @@
 \alias{Ft4gen}
 \title{Standalone Edgeworth expansion for a test statistic - general case}
 \usage{
-Ft1gen(x, n, r, k12, k31, norm = FALSE, df = NULL)
+Ft1gen(x, n, k12, k31, r, norm = TRUE, df = NULL)
 
-Ft2gen(x, n, r, k12, k22, k31, k41, norm = FALSE, df = NULL)
+Ft2gen(x, n, k12, k22, k31, k41, r, norm = TRUE, df = NULL)
 
-Ft3gen(x, n, r, k12, k13, k22, k31, k32, k41, k51, norm = FALSE, df = NULL)
+Ft3gen(x, n, k12, k13, k22, k31, k32, k41, k51, r, norm = TRUE, df = NULL)
 
-Ft4gen(x, n, r, k12, k13, k22, k23, k31, k32, k41, k42, k51, k61,
-  norm = FALSE, df = NULL)
+Ft4gen(x, n, k12, k13, k22, k23, k31, k32, k41, k42, k51, k61, r, norm = TRUE,
+  df = NULL)
 }
 \arguments{
 \item{x}{numeric vector of quantiles of sampling distribution.}
 
-\item{n}{sample size.}
-
-\item{r}{sqare root of variance adjustment. The variance adjustment is 
-generally equal to \code{k21}.}
+\item{n}{a single value for a sample size summary to be used in Edgeworth 
+expansion. \strong{Important:} an average (not sum!) of two group sizes for
+a two-sample test.}
 
 \item{k12, k13, k22, k23, k31, k32, k41, k42, k51, k61}{cumulant components - values 
 calculated from sample statistics or distribution parameters.}
 
+\item{r}{sqare root of variance adjustment. The variance adjustment is 
+generally equal to \code{k21}.}
+
 \item{norm}{if \code{TRUE}, normal distribution is used as a base for 
 Edgeworth expansions, if \code{FALSE} - Student's t-distribution. Defaults 
-to \code{FALSE}.}
+to \code{TRUE}.}
 
 \item{df}{degrees of freedom for Student's t-distribution if \code{norm = 
 FALSE}. Provide a single value for the first order approximation (zero 
 term).}
 }
 \value{
-The value of Edgeworth expansion of a corresponding order 
-  (\code{Ft1gen} for a 1-term or 2nd order EE and so on). (or values, one for
-  each x?)
+A vector of the same length as \code{x} containing the values of 
+  Edgeworth expansion of a corresponding order (\code{Ft1gen} for a 1-term or
+  2nd order EE, \code{Ft2gen} for a 2-term EE, and so on).
 }
 \description{
-Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order)
+Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) 
 for a general version of t-statistic and other test statistics.
 }
 \details{
@@ -51,6 +53,25 @@ statistic. These functions implement a general version of EE that can be used
 for any one- or two-sample t-statistic as well as for other test statistics.
 }
 \examples{
+# two-sample test
+n1 <- 8
+n2 <- 10
+shp <- 3
+smp <- c(rgamma(n1, shape = shp), rnorm(n2))
+a <- rep(1:0, c(n1, n2))
+stats <- smpStats(smp, a)
+for (i in 1:length(stats)) {
+  assign(names(stats)[i], stats[i])
+}
+k12 <- K12two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, 
+              mu_y2, mu_y3, mu_y4, mu_y5, mu_y6)
+k31 <- K31two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, 
+              mu_y2, mu_y3, mu_y4, mu_y5, mu_y6)
+r <- sqrt(K21two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, 
+                 mu_y2, mu_y3, mu_y4, mu_y5, mu_y6))
+x <- seq(-5, -2, by = 0.5) 
+Ft1gen(x, (n1 + n2)/2, k12, k31, r)
+Ft1gen(x, (n1 + n2)/2, k12, k31, r, norm = FALSE, df = n1 + n2 - 2)
 
 }
 \seealso{

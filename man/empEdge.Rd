@@ -5,11 +5,11 @@
 \title{Empirical Edgeworth expansions for high-dimensional data analysis}
 \usage{
 empEdge(dat, a = NULL, side = "two-sided", type = NULL,
-  unbiased.mom = NULL, alpha = 0.05, ncheck = 50, lim = c(1, 10))
+  unbiased.mom = TRUE, alpha = 0.05, ncheck = 30, lim = c(1, 7))
 }
 \arguments{
 \item{dat}{data matrix with rows corresponding to features. The number of 
-columns is a sample size and number of rows is a number of tests. If the
+columns is a sample size and number of rows is a number of tests. If the 
 number of tests is \code{1}, \code{dat} can be a vector.}
 
 \item{a}{treatment vector; the length has to correspond to the number of 
@@ -36,13 +36,14 @@ for third through sixth central moments should be used. Defaults to
 right tail (positive values).}
 }
 \value{
-A matrix with each row providing p-values for five orders of 
-  Edgeworth expansions for a corresponding feature (row of data). Where 
-  applicable, p-values will be provided for both ordinary and moderated 
-  t-statistics (10 columns, five orders each); for Welch t-test the matrix 
-  will have five columns, and if prior degrees of freedom is \code{Inf}, only
-  first order p-values are returned for moderated t-statistic (six columns). 
-  [r = 1 in this case]
+A matrix with the same number of rows as \code{dat}, each row 
+  providing p-values for five orders of Edgeworth expansions (0 - 4-term 
+  expansions) for a corresponding feature (row of data). Where applicable, 
+  p-values will be provided for both ordinary and moderated t-statistics (10 
+  columns, five orders each); for Welch t-test the matrix will have five 
+  columns, and if prior degrees of freedom is \code{Inf}, only first order 
+  p-values are returned for moderated t-statistic (six columns); note that
+  variance adjustment \eqn{r^2} is 1 in that case.
 }
 \description{
 Higher order inference for one- and two-sample t-tests in high-dimensional 
@@ -68,16 +69,48 @@ order is not determined to be helpful, p-value of a previous order is
 provided in its place.
 
 For better performance of a second order, using \code{unbiased.mom = TRUE} is
-recommended. For other orders, relative performance of the estimators varied 
-depending on the simulation scheme. For variance estimate, posterior variance
-is used for moderated t-statistic and unbiased/pooled for ordinary t.
+recommended. For variance estimate, posterior variance is used for moderated
+t-statistic and unbiased/pooled variance for ordinary t.
 }
 \examples{
-# Create, blin, data, maybe a few sets
-#load("somedata")
-#res <- empEdge(dat1smp)
-#head(res)
-#res <- empEdge(dat2smp, age)
-#res <- empEdge(dat2smp, age, type = "Welch")
+# simulate a data set
+nx <- 10           # sample size
+m  <- 1e4          # number of tests
+ns <- 0.05*m       # number of significant features
+dat <- matrix(rgamma(m*nx, shape = 3) - 3, nrow = m)
+shifts <- runif(ns, 1, 5)
+dat[1:ns, ] <- dat[1:ns, ] - shifts
+# run
+res <- empEdge(dat)
+head(res, 3)
 
+# one test (data not high-dimensional)
+empEdge(dat[1, ], side = "left", unbiased.mom = FALSE, alpha = 0.1)
+
+# Welch test
+ny <- 12
+dat2 <- cbind(matrix(rnorm(m*ny), nrow = m), dat)
+treat <- rep(0:1, c(ny, nx))
+res <- empEdge(dat2, treat, type = "Welch", ncheck = 50, lim = c(1, 10))
+head(res, 3)
+
+# prior degrees of freedom not finite
+if (require(limma)) {
+  d0 <- 0
+  while (is.finite(d0)) {
+    dat <- matrix(rnorm(m*nx), nrow = m)
+    dat[1:ns, ] <- dat[1:ns, ] + shifts
+    fit <- lmFit(dat, rep(1, nx)) 
+    d0 <- ebayes(fit)$df.prior
+  }
+} 
+res <- empEdge(dat, side = "right")
+head(res, 3)  
+
+}
+\seealso{
+\code{\link{taleDiag}} for tail daignostic, \code{\link{makeFx}}, 
+  \code{\link{Ftshort}}, and \code{\link{Ftgen}} for calculating Edgeworth 
+  expansions of orders 1 to 5, and \code{\link{smpStats}} for extracting 
+  statistics needed to calculate EE from a sample.
 }

@@ -3,20 +3,22 @@
 #' Calculate values of \code{p(x)} used in terms of Edgeworth expansions (EE) 
 #' for a sample mean and a two-sample difference in means.
 #' 
-#' \code{p1()} is used for term 1 (second order expansion), \code{p2()} for term
-#' 2 and so on.
+#' \code{p1()} is used for term 1 (2nd order expansion), \code{p2()} for term 2,
+#' and so on.
 #' 
 #' @name pfuns
-#' @param x a numerical value (quantile of sampling distribution) or a vector of
-#'   quantiles.
-#' @inheritParams qfuns
+#' @inherit qfuns params return
 #'   
-#' @return A vector of values of a mathematical function, one for each quantile 
-#'   in \code{x}.
-#' @seealso \code{\link{Fmean}}, \code{\link{Fdiff}} for corresponding EE
+#' @seealso \code{\link{Fmean}}, \code{\link{Fdiff}} for corresponding EE 
 #'   values.
 #'   
 #' @examples 
+#' # Gamma distribution with shape parameter shp
+#' shp <- 3
+#' ord <- 3:6                # orders of scaled cumulants
+#' lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)
+#' x <- seq(2, 5, by = 0.5)  # thicker tail
+#' p1(x, lambdas)
 #' 
 #' @export
 p1 <- function(x, lam) {
@@ -51,7 +53,7 @@ p4 <- function(x, lam) {
 
 #' Edgeworth expansion for standardized mean
 #' 
-#' Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order)
+#' Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) 
 #' for the standardized mean.
 #' 
 #' Higher-order approximations of the cumulative distribution function of the 
@@ -61,14 +63,20 @@ p4 <- function(x, lam) {
 #' @inheritParams pfuns
 #' @param n sample size.
 #'   
-#' @return  A vector of values of Edgeworth expansion of a corresponding order 
-#'   (e.g. \code{Fm1} for a 1-term or 2nd order EE expansion and so on). The 
-#'   length of the vector is the same as the length of \code{x}.
+#' @return A vector of the same length as \code{x} containing the values of 
+#'   Edgeworth expansion of a corresponding order (\code{Fm1} for a 1-term or 
+#'   2nd order EE, \code{Fm2} for a 2-term EE, and so on).
 #'   
 #' @seealso \code{\link{Fdiff}} for EE for two-sample standardized difference in
 #'   means and \code{\link{pfuns}} for \code{p()} functions used in EE terms.
 #'   
 #' @examples 
+#' # Gamma distribution with shape parameter shp
+#' shp <- 3
+#' ord <- 3:6                # orders of scaled cumulants
+#' lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)
+#' x <- seq(2, 5, by = 0.5)  # thicker tail
+#' 1 - Fm1(x, n, lambdas)
 #' 
 #' @export
 Fm1 <- function(x, n, lam) {
@@ -92,8 +100,8 @@ Fm4 <- function(x, n, lam) {
 
 #' Edgeworth expansion two-sample difference in means
 #' 
-#' Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order)
-#' for the two-sample standardize difference in means.
+#' Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) 
+#' for the two-sample standardized difference in means.
 #' 
 #' Higher-order approximations of the cumulative distribution function of the 
 #' two-sample standardized difference in means. Note that for a sample \eqn{X_1,
@@ -102,21 +110,31 @@ Fm4 <- function(x, n, lam) {
 #' 
 #' @name Fdiff
 #' @inheritParams pfuns
-#' @param nx number of observations in the first group (two-sample).
-#' @param ny number of observations in the second group (two-sample).
-#' @param lamx scaled cumulants of the distribution of the first group 
-#'   (two-sample).
-#' @param lamy scaled cumulants of the distribution of the second group 
-#'   (two-sample).
-#' @param varx variance of the first group (two-sample).
-#' @param vary variance of the second group (two-sample).
+#' @param nx number of observations in the first group.
+#' @param ny number of observations in the second group.
+#' @param lamx scaled cumulants of the distribution of the first group.
+#' @param lamy scaled cumulants of the distribution of the second group.
+#' @param varx variance of the first group.
+#' @param vary variance of the second group.
 #'   
-#' @return  A vector of values of Edgeworth expansion of a corresponding order 
-#'   (\code{Fm1} and \code{Fm1two} for a 1-term or 2nd order Edgeworth expansion
-#'   and so on). The length of the vector is the same as the length of \code{x}.
+#' @return A vector of the same length as \code{x} containing the values of 
+#'   Edgeworth expansion of a corresponding order (\code{Fm1two} for a 1-term or
+#'   2nd order EE, \code{Fm2two} for a 2-term EE, and so on).
 #'   
 #' @seealso \code{\link{Fmean}} for EE for one-sample standardized mean and 
 #'   \code{\link{pfuns}} for \code{p()} functions used in EE terms.
+#'   
+#' @examples 
+#' # X: n1 gamma distributed iid random variables, centered
+#' # Y: n2 normally distributed iid random variables (standard normal) 
+#' n1 <- 8
+#' n2 <- 10
+#' shp <- 3
+#' ord <- 3:6                # orders of scaled cumulants
+#' lamx <- factorial(ord - 1)/shp^((ord - 2)/2)
+#' lamy <- rep(0, 4)
+#' x <- seq(2, 5, by = 0.5)  # thicker tail 
+#' 1 - Fm1two(x, n1, n2, lamx, lamy, shp, 1)
 #'   
 #' @export
 Fm1two <- function(x, nx, ny, lamx, lamy, varx, vary) {

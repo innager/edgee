@@ -8,13 +8,13 @@
 \alias{Ft4}
 \title{Standalone Edgeworth expansion for ordinary one-sample t-statistic}
 \usage{
-Ft1(x, n, lam, r = 1, norm = FALSE, df = n - 1)
+Ft1(x, n, lam, r = sqrt((n - 1)/n), norm = TRUE, df = n - 1)
 
-Ft2(x, n, lam, r = 1, norm = FALSE, df = n - 1)
+Ft2(x, n, lam, r = sqrt((n - 1)/n), norm = TRUE, df = n - 1)
 
-Ft3(x, n, lam, r = 1, norm = FALSE, df = n - 1)
+Ft3(x, n, lam, r = sqrt((n - 1)/n), norm = TRUE, df = n - 1)
 
-Ft4(x, n, lam, r = 1, norm = FALSE, df = n - 1)
+Ft4(x, n, lam, r = sqrt((n - 1)/n), norm = TRUE, df = n - 1)
 }
 \arguments{
 \item{x}{numeric vector of quantiles of sampling distribution.}
@@ -25,18 +25,19 @@ Ft4(x, n, lam, r = 1, norm = FALSE, df = n - 1)
 (skewness). Term 1 needs a third cumulant only, term 2 - third and fourth 
 (kurtosis), and so on.}
 
-\item{r}{square root of variance adjustment (see \code{Details}).}
+\item{r}{square root of variance adjustment (see "Details").}
 
 \item{norm}{if \code{TRUE}, normal distribution is used as a base for 
 Edgeworth expansions, if \code{FALSE} - Student's t-distribution. Defaults 
-to \code{FALSE}.}
+to \code{TRUE}.}
 
 \item{df}{degrees of freedom for Student's t-distribution if \code{norm = 
 FALSE}. A single value for the first order approximation (zero term).}
 }
 \value{
-The value of Edgeworth expansion of a corresponding order (\code{Ft1}
-  for a 1-term or 2nd order EE and so on). (or values, one for each x?)
+A vector of the same length as \code{x} containing the values of 
+  Edgeworth expansion of a corresponding order (\code{Ft1} for a 1-term or 
+  2nd order EE, \code{Ft2} for a 2-term EE, and so on).
 }
 \description{
 Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) 
@@ -51,6 +52,14 @@ variance estimate and \eqn{(n - 1)/n} for a standard t with unbiased variance
 estimate.
 }
 \examples{
+# Gamma distribution with shape parameter shp
+n <- 10
+shp <- 3
+ord <- 3:6                  # orders of scaled cumulants
+lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)
+x <- seq(-5, -2, by = 0.5)  # thicker tail
+Ft1(x, n, lambdas, r = 1)
+Ft1(x, n, lambdas, norm = FALSE)
 
 }
 \seealso{

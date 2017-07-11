@@ -54,8 +54,44 @@ A named vector of sample statistics to be used in Edgeworth
 \description{
 Calculate sample statistics needed for Edgeworth expansions.
 }
+\examples{
+# simulate sample - one-sample test
+n <- 10
+smp <- rlnorm(n, sdlog = 0.6)  
+stats <- smpStats(smp)
+stats
+t <- sqrt(n)*mean(smp)/sd(smp)
+tailDiag(stats, n)
+Ft <- makeFx(stats, n, base = "t")
+Ft(t)
+
+# two-sample test
+n2 <- 8
+smp2 <- c(smp, rnorm(n2))
+a <- rep(0:1, c(n, n2))
+smpStats(smp, a, unbiased.mom = FALSE)
+
+# moderated t-statistic
+if (require(limma)) {
+  # simulate high-dimensional data
+  m  <- 1e4          # number of tests
+  ns <- 0.05*m       # number of significant features
+  dat <- matrix(rgamma(m*n, shape = 3) - 3, nrow = m)
+  dat <- rbind(smp, dat)
+  shifts <- runif(ns, 1, 5)
+  dat[1:ns, ] <- dat[1:ns, ] - shifts
+  # get prior information
+  fit <- lmFit(dat, rep(1, n))
+  fbay <- ebayes(fit)
+  s20 <- fbay$s2.prior
+  d0  <- fbay$df.prior
+  varpost <- fbay$s2.post
+  smpStats(dat, moder = TRUE, d0 = d0, s20 = s20, varpost = varpost)
+}
+  
+}
 \seealso{
 \code{\link{tailDiag}}, \code{\link{makeFx}}, and
-  \code{\link{makeQx}} for functions that use \code{stats} argument
+  \code{\link{makeQx}} for functions that require \code{stats} argument
   corresponding to the output of \code{smpStats()}.
 }

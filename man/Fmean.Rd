@@ -17,8 +17,7 @@ Fm3(x, n, lam)
 Fm4(x, n, lam)
 }
 \arguments{
-\item{x}{a numerical value (quantile of sampling distribution) or a vector of
-quantiles.}
+\item{x}{numeric vector of quantiles of sampling distribution.}
 
 \item{n}{sample size.}
 
@@ -27,12 +26,12 @@ quantiles.}
 (kurtosis), and so on.}
 }
 \value{
-A vector of values of Edgeworth expansion of a corresponding order 
-  (e.g. \code{Fm1} for a 1-term or 2nd order EE expansion and so on). The 
-  length of the vector is the same as the length of \code{x}.
+A vector of the same length as \code{x} containing the values of 
+  Edgeworth expansion of a corresponding order (\code{Fm1} for a 1-term or 
+  2nd order EE, \code{Fm2} for a 2-term EE, and so on).
 }
 \description{
-Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order)
+Calculate values of 1 - 4-term Edgeworth expansions (EE) (2nd - 5th order) 
 for the standardized mean.
 }
 \details{
@@ -40,6 +39,12 @@ Higher-order approximations of the cumulative distribution function of the
 standardized sample average.
 }
 \examples{
+# Gamma distribution with shape parameter shp
+shp <- 3
+ord <- 3:6                # orders of scaled cumulants
+lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)
+x <- seq(2, 5, by = 0.5)  # thicker tail
+1 - Fm1(x, n, lambdas)
 
 }
 \seealso{

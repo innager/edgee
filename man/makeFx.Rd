@@ -9,35 +9,36 @@ makeFx(stats, n, r = NULL, type = "short", base = "normal", df = NULL,
 }
 \arguments{
 \item{stats}{named vector of distribution parameters or estimates needed for 
-Edgeworth expansion. If no names for the vector are provided and the type is
-\code{"short"}, elements are assumed to be scaled cumulants \eqn{\lambda} (3
-- 6). If the elements are named, the order of the elements is arbitrary. 
-Required names: \itemize{ \item for ordinary one-sample t-statistic only 
-(\code{type = "short"}): \code{"lam3", "lam4", "lam5", "lam6"} (scaled 
-cumulants); \item for more complicated one-sample versions, such as a 
-moderated t-statistic (\code{type = "one-sample"}): \code{"mu2", "mu3", 
-"mu4", "mu5", "mu6"} (central moments), \code{"A"}, and \code{"B"}; \item 
-for a two-sample t-statistic (\code{type = "two-sample"}): \code{"mu_x2", 
-"mu_x3", "mu_x4", "mu_x5", "mu_x6"} (central moments for a treatment group),
-\code{"mu_y2", "mu_y3", "mu_y4", "mu_y5", "mu_y6"} (central moments for a 
-control group), \code{"A", "B_x", "B_y", "b_x"}, and \code{"b_y"}. Note that
-if the same distribution is assumed for the two groups, the values for 
-central moments for these groups should be the same (e.g. pooled variance 
-for a second moment). \item  optionally for a moderated t-statistic: 
-\code{"d0"} (prior degrees of freedom). Ignored if \code{df} is provided. }}
+Edgeworth expansion. If no names for the vector are provided and the type
+is \code{"short"}, elements are assumed to be scaled cumulants
+\eqn{\lambda} (3 - 6). If the elements are named, the order of the elements
+is arbitrary. Required names: \itemize{ \item for ordinary one-sample
+t-statistic only (\code{type = "short"}): \code{"lam3", "lam4", "lam5",
+"lam6"} (scaled cumulants); \item for more complicated one-sample versions,
+such as a moderated t-statistic (\code{type = "one-sample"}): \code{"mu2",
+"mu3", "mu4", "mu5", "mu6"} (central moments), \code{"A"}, and \code{"B"};
+\item for a two-sample t-statistic (\code{type = "two-sample"}):
+\code{"mu_x2", "mu_x3", "mu_x4", "mu_x5", "mu_x6"} (central moments for a
+treatment group), \code{"mu_y2", "mu_y3", "mu_y4", "mu_y5", "mu_y6"}
+(central moments for a control group), \code{"A", "B_x", "B_y", "b_x"}, and
+\code{"b_y"}. Note that if the same distribution is assumed for the two
+groups, the values for central moments for these groups should be the same
+(e.g. pooled variance for a second moment). \item  optionally for a
+moderated t-statistic: \code{"d0"} (prior degrees of freedom). Ignored if
+\code{df} is provided. }}
 
 \item{n}{a single value for a sample size summary to be used in Edgeworth 
-expansion. \strong{Important:} an average (not sum!) of two group sizes for 
+expansion. \strong{Important:} an average (not sum!) of two group sizes for
 a two-sample test.}
 
-\item{r}{square root of variance adjustment. Provide if wish to use a value
-that is different from the one that will be calculated from \code{stats}
-for a general version.}
+\item{r}{square root of variance adjustment. Provide if wish to use a value 
+that is different from the one that will be calculated from \code{stats} or
+\code{n}.}
 
-\item{type}{type of Edgeworth expansions to be used: \code{"short"} for 
-ordinary one-sample t-statistic, \code{"one-sample"} for a more complicated
-version such as a moderated t-statistic, and \code{"two-sample"} for any 
-kind of two-sample t-statistic.}
+\item{type}{which Edgeworth expansions are to be evaluated: \code{"short"}
+for ordinary one-sample t-statistic, \code{"one-sample"} for a more
+complicated version such as a moderated t-statistic, and
+\code{"two-sample"} for any kind of two-sample t-statistic.}
 
 \item{base}{base distribution of Edgeworth expansions. Classic expansions are
 based on standard normal distribution (\code{base = "normal"}), but 
@@ -52,17 +53,18 @@ If not provided, \code{df} will be calculated as \code{n - 1} for
 TRUE}), the value of prior degrees of freedom \code{stats["d0"]} will be 
 added.}
 
-\item{moder}{\code{logical} value for calculating augmented degrees of freedom
-for a moderated t-statistic; if \code{TRUE}, the value for prior degrees of 
-freedom shoud be included in \code{stats}. Ignored if \code{df} is provided.}
+\item{moder}{\code{logical} value for calculating augmented degrees of
+freedom for a moderated t-statistic; if \code{TRUE}, the value for prior
+degrees of freedom shoud be included in \code{stats}. Ignored if \code{df}
+is provided.}
 
 \item{verbose}{if \code{TRUE}, the warning message will be printed when the 
 elements of \code{stats} are not named.}
 }
 \value{
 A function \code{F(x)} that takes a quantile \code{x} as an input and
-  outputs a vector of five values for five orders of approximation. ***** 
-  Check if \code{x} can be a vector (might be a problem with conditionals).
+  outputs a vector of values for five orders of approximation. If \code{x} is
+  a vector, each order of approximation will contain \code{length(x)} values.
 }
 \description{
 Create an Edgeworth series \code{F(x)} of orders 1 - 5 for various versions 
@@ -77,10 +79,40 @@ and Welch t-test. Variance adjustment \code{r} is incorporated and there is
 not need to pass it to the resulting function.
 }
 \examples{
+n <- 10                 # sample size
+# Gamma distribution with shape parameter \\code{shp}
+shp <- 3
+ord <- 3:6              # orders of scaled cumulants
+lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)
+Ft <- makeFx(lambdas, n, base = "t")
+quant <- -(3:5)
+Fmat <- matrix(Ft(quant), nrow = length(quant))
+rownames(Fmat) <- quant
+colnames(Fmat) <- paste("order", 1:5)
+Fmat
+
+Ftnorm <- makeFx(lambdas, n, r = 1, base = "normal")
+p <- 0.025
+Ftnorm(qnorm(p))[1]
+
+# from sample
+smp <- rgamma(n, shape = shp) - shp
+stats <- smpStats(smp)
+t <- sqrt(n)*mean(smp)/sd(smp)
+Ft <- makeFx(stats, n, base = "t")
+Ft(t)
+
+# two-sample test
+n2 <- 8
+smp2 <- c(smp, rnorm(n2))
+a <- rep(0:1, c(n, n2))
+stats2 <- smpStats(smp2, a)
+Ft2 <- makeFx(stats2, n, type = "two-sample", base = "t", df = n + n2 - 2)
+Ft2(qt(p, df = n + n2 - 2))  # note 1st order not equal to p because r != 1
 
 }
 \seealso{
-\code{\link{smpStats}} that creates \code{stats} vector from the
+\code{\link{smpStats}} that creates \code{stats} vector from the 
   sample, and \code{\link{makeQx}} that creates \code{q(x)} functions used in
   EE terms.
 }

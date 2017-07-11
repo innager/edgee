@@ -8,43 +8,61 @@
 \alias{q4k}
 \title{\code{q()} functions for Edgeworth expansion terms - general version}
 \usage{
-q1k(x, r, k12, k31)
+q1k(x, k12, k31, r)
 
-q2k(x, r, k12, k22, k31, k41)
+q2k(x, k12, k22, k31, k41, r)
 
-q3k(x, r, k12, k13, k22, k31, k32, k41, k51)
+q3k(x, k12, k13, k22, k31, k32, k41, k51, r)
 
-q4k(x, r, k12, k13, k22, k23, k31, k32, k41, k42, k51, k61)
+q4k(x, k12, k13, k22, k23, k31, k32, k41, k42, k51, k61, r)
 }
 \arguments{
 \item{x}{numeric vector of quantiles of sampling distribution.}
 
-\item{r}{sqare root of variance adjustment. The variance adjustment is 
-generally equal to \code{k21}.}
-
 \item{k12, k13, k22, k23, k31, k32, k41, k42, k51, k61}{cumulant components - values 
 calculated from sample statistics or distribution parameters.}
+
+\item{r}{sqare root of variance adjustment. The variance adjustment is 
+generally equal to \code{k21}.}
 }
 \value{
-A vector of the same length as \code{x} containing the values of a 
-  mathematical function.
+A vector of the same length as \code{x}.
 }
 \description{
 Calculate values of \code{q(x)} used in terms of Edgeworth expansions (EE) 
 for a general version of t-statistic and other test statistics.
 }
 \details{
-These functions implement a general version of EE, which can be used for any
-one- or two-sample t-statistic, as well as for other test statistics.
-\code{q1k()} is used for term 1 (1-term expansion is also referred to as a
-2nd order expansion), \code{q2k()} for term 2 and so on. Variance adjustment
+These functions implement a general version of EE, which can be used for any 
+one- or two-sample t-statistic, as well as for other test statistics. 
+\code{q1k()} is used for term 1 (1-term expansion is also referred to as a 
+2nd order expansion), \code{q2k()} for term 2, and so on. Variance adjustment 
 is incorporated in these functions.
 }
 \examples{
+# two-sample test
+n1 <- 8
+n2 <- 10
+shp <- 3
+smp <- c(rgamma(n1, shape = shp), rnorm(n2))
+a <- rep(1:0, c(n1, n2))
+stats <- smpStats(smp, a)
+for (i in 1:length(stats)) {
+  assign(names(stats)[i], stats[i])
+}
+k12 <- K12two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, 
+              mu_y2, mu_y3, mu_y4, mu_y5, mu_y6)
+k31 <- K31two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, 
+              mu_y2, mu_y3, mu_y4, mu_y5, mu_y6)
+r <- sqrt(K21two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, 
+                 mu_y2, mu_y3, mu_y4, mu_y5, mu_y6))
+x <- seq(-5, -2, by = 0.5) 
+q1k(x, k12, k31, r)
 
 }
 \seealso{
 \code{\link{Ftgen}} for corresponding EE values and 
-  \code{\link{qfuns}} for the short version used in EE for ordinary
-  one-sample t-statistic.
+  \code{\link{qfuns}} for the short version used in EE for ordinary 
+  one-sample t-statistic. For automated generalized verions of these 
+  functions see \code{\link{makeQx}} and \code{\link{makeFx}}.
 }

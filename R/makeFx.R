@@ -12,10 +12,9 @@
 #' 
 #' @inheritParams tailDiag
 #' @inheritParams makeQx
-#' @param type type of Edgeworth expansions to be used: \code{"short"} for 
-#'   ordinary one-sample t-statistic, \code{"one-sample"} for a more complicated
-#'   version such as a moderated t-statistic, and \code{"two-sample"} for any 
-#'   kind of two-sample t-statistic.
+#' @param r square root of variance adjustment. Provide if wish to use a value 
+#'   that is different from the one that will be calculated from \code{stats} or
+#'   \code{n}.
 #' @param base base distribution of Edgeworth expansions. Classic expansions are
 #'   based on standard normal distribution (\code{base = "normal"}), but 
 #'   Student's t-distribution (\code{base = "t"}) is recommended for 
@@ -29,19 +28,49 @@
 #'   added.
 #'   
 #' @return A function \code{F(x)} that takes a quantile \code{x} as an input and
-#'   outputs a vector of five values for five orders of approximation. ***** 
-#'   Check if \code{x} can be a vector (might be a problem with conditionals).
+#'   outputs a vector of values for five orders of approximation. If \code{x} is
+#'   a vector, each order of approximation will contain \code{length(x)} values.
 #'   
-#' @seealso \code{\link{smpStats}} that creates \code{stats} vector from the
+#' @seealso \code{\link{smpStats}} that creates \code{stats} vector from the 
 #'   sample, and \code{\link{makeQx}} that creates \code{q(x)} functions used in
 #'   EE terms.
 #'   
 #' @examples 
+#' n <- 10                 # sample size
+#' # Gamma distribution with shape parameter \code{shp}
+#' shp <- 3
+#' ord <- 3:6              # orders of scaled cumulants
+#' lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)
+#' Ft <- makeFx(lambdas, n, base = "t")
+#' quant <- -(3:5)
+#' Fmat <- matrix(Ft(quant), nrow = length(quant))
+#' rownames(Fmat) <- quant
+#' colnames(Fmat) <- paste("order", 1:5)
+#' Fmat
+#' 
+#' Ftnorm <- makeFx(lambdas, n, r = 1, base = "normal")
+#' p <- 0.025
+#' Ftnorm(qnorm(p))[1]
+#' 
+#' # from sample
+#' smp <- rgamma(n, shape = shp) - shp
+#' stats <- smpStats(smp)
+#' t <- sqrt(n)*mean(smp)/sd(smp)
+#' Ft <- makeFx(stats, n, base = "t")
+#' Ft(t)
+#' 
+#' # two-sample test
+#' n2 <- 8
+#' smp2 <- c(smp, rnorm(n2))
+#' a <- rep(0:1, c(n, n2))
+#' stats2 <- smpStats(smp2, a)
+#' Ft2 <- makeFx(stats2, n, type = "two-sample", base = "t", df = n + n2 - 2)
+#' Ft2(qt(p, df = n + n2 - 2))  # note 1st order not equal to p because r != 1
 #' 
 #' @export
 
-makeFx <- function(stats, n, r = NULL, type = "short", base = "normal", df = NULL,
-                   moder = FALSE, verbose = TRUE) {
+makeFx <- function(stats, n, r = NULL, type = "short", base = "normal", 
+                   df = NULL, moder = FALSE, verbose = TRUE) {
   q <- makeQx(stats, r = r, type = type, verbose = verbose)
   if (is.null(r)) {
     if (type == "short") {

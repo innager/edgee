@@ -10,6 +10,13 @@
 #' @param m6 naive biased sixth central moment estimate \eqn{m_6 = 1/n \sum_{i = 1}^n ((X_i - \bar{X})^6}{m[6] = mean((X - X-bar)^6)} for a vector \code{X}.  
 #' @param n sample size.
 #' @return Unbiased estimate of a sixth central moment.
+#' @example 
+#' n <- 10
+#' smp <- rgamma(n, shape = 3)
+#' for (j in 2:6) {
+#'   assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+#' }
+#' M6one(m2, m3, m4, m6, n)
 #' @export  
 M6one <- function(m2, m3, m4, m6, n) 15*m2^3*(3*n - 10)*n^2/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 40*(n^2 - 6*n + 10)*m3^2*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) - 15*(n^3 - 8*n^2 + 29*n - 40)*m2*m4*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) + (n^4 - 9*n^3 + 31*n^2 - 39*n + 40)*m6*n/((n - 1)*(n - 2)*(n - 3)*(n - 4)*(n - 5)) 
 #' @family unbiased estimates
