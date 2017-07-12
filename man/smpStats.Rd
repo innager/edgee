@@ -69,7 +69,7 @@ Ft(t)
 n2 <- 8
 smp2 <- c(smp, rnorm(n2))
 a <- rep(0:1, c(n, n2))
-smpStats(smp, a, unbiased.mom = FALSE)
+smpStats(smp2, a, unbiased.mom = FALSE)
 
 # moderated t-statistic
 if (require(limma)) {
@@ -77,16 +77,15 @@ if (require(limma)) {
   m  <- 1e4          # number of tests
   ns <- 0.05*m       # number of significant features
   dat <- matrix(rgamma(m*n, shape = 3) - 3, nrow = m)
-  dat <- rbind(smp, dat)
   shifts <- runif(ns, 1, 5)
   dat[1:ns, ] <- dat[1:ns, ] - shifts
-  # get prior information
+  # estimate prior information
   fit <- lmFit(dat, rep(1, n))
   fbay <- ebayes(fit)
-  s20 <- fbay$s2.prior
-  d0  <- fbay$df.prior
-  varpost <- fbay$s2.post
-  smpStats(dat, moder = TRUE, d0 = d0, s20 = s20, varpost = varpost)
+  # look at one feature (row of data)
+  i <- 625
+  smpStats(dat[i, ], moder = TRUE, d0 = fbay$df.prior, s20 = fbay$s2.prior, 
+           varpost = fbay$s2.post[i])
 }
   
 }

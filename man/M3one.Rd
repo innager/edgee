@@ -7,7 +7,8 @@
 M3one(m3, n)
 }
 \arguments{
-\item{m3}{naive biased third central moment estimate \eqn{m_3 = 1/n \sum_{i = 1}^n ((X_i - \bar{X})^3}{m[3] = mean((X - X-bar)^3)} for a vector \code{X}.}
+\item{m3}{naive biased third central moment estimate \eqn{m_3 = 1/n \sum_{i =
+1}^n ((X_i - \bar{X})^3}{m[3] = mean((X - X-bar)^3)} for a vector \code{X}.}
 
 \item{n}{sample size.}
 }
@@ -15,7 +16,16 @@ M3one(m3, n)
 Unbiased estimate of a third central moment.
 }
 \description{
-Calculate unbiased estimates of central moments and their powers and products.
+Calculate unbiased estimates of central moments and their powers and 
+products.
+}
+\examples{
+n <- 10
+smp <- rgamma(n, shape = 3)
+for (j in 2:6) {
+  assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+}
+M3one(m3, n)
 }
 \seealso{
 Other unbiased estimates: \code{\link{M2M3one}},

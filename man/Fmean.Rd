@@ -40,6 +40,7 @@ standardized sample average.
 }
 \examples{
 # Gamma distribution with shape parameter shp
+n <- 10
 shp <- 3
 ord <- 3:6                # orders of scaled cumulants
 lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)

@@ -91,8 +91,8 @@ unbMom <- function(smp, order) {
 #' order includes estimates of fourth moment and squared variance 
 #' (\eqn{\mu_2^2}{\mu[2]^2}), fifth order - of fifth moment and a product of 
 #' second and third moments (\eqn{\mu_2 \mu_3}{\mu[2] \mu[3]}), sixth order - of
-#' sixth moment, a product of second and fourth moments (\eqn{\mu_2
-#' \mu_4}{\mu[2] \mu[4]}), squared third moment (\eqn{\mu_3^2}{\mu[3]^2}), and
+#' sixth moment, a product of second and fourth moments (\eqn{\mu_2 
+#' \mu_4}{\mu[2] \mu[4]}), squared third moment (\eqn{\mu_3^2}{\mu[3]^2}), and 
 #' cubed variance (\eqn{\mu_2^3}{\mu[2]^3}).
 #' 
 #' @inherit unbMom params return
@@ -168,24 +168,38 @@ unbMom2smp <- function(smp, a, order) {
 
 #' Central moment estimates for Edgeworth expansions
 #' 
-#' Calculate central moment estimates for use in Edgeworth expansions for one-
+#' Calculate central moment estimates for use in Edgeworth expansions for one- 
 #' and two-sample t-tests.
 #' 
 #' For one-sample estimates: \code{getMomEdgeBias()} calculates regular unbiased
-#' sample variance and naive biased estimates for 3rd to 6th central moments;
-#' \code{getMomEdgeUnb()} calculates unbiased estimates of 2nd to 6th central
-#' moments. For two-sample estimates, where the two populations are assumed to
-#' have the same variance and higher central moments: \code{getMomEdgeBias2()}
-#' calculates unbiased pooled variance and naive biased 3rd to 6th central
+#' sample variance and naive biased estimates for 3rd to 6th central moments; 
+#' \code{getMomEdgeUnb()} calculates unbiased estimates of 2nd to 6th central 
+#' moments. For two-sample estimates, where the two populations are assumed to 
+#' have the same variance and higher central moments: \code{getMomEdgeBias2()} 
+#' calculates unbiased pooled variance and naive biased 3rd to 6th central 
 #' moments; \code{getMomEdgeUnb2()} provides unbiased pooled estimates of 2nd to
 #' 6th moments.
 #' 
 #' @name momEdge
 #' @inheritParams unbMom2smp
-#' @return A named vector of length \code{5}. The names of the elements
-#'   correspond to the estimands and are \code{"mu2", "mu3", "mu4", "mu5",
+#' @return A named vector of length \code{5}. The names of the elements 
+#'   correspond to the estimands and are \code{"mu2", "mu3", "mu4", "mu5", 
 #'   "mu6"}.
+#' @seealso \code{\link{getLam}} for calculating scaled cumulants from moments.
 #'   
+#' @examples 
+#' n     <- 10 
+#' n2smp <- 23
+#' smp <- rgamma(n, shape = 3)        
+#' getMomEdgeBias(smp)  # var unbiased, moments 3 - 6 naive biased
+#' getMomEdgeUnb( smp)
+#' 
+#' smp2 <- rgamma(n2smp, shape = 3)
+#' treatment <- sample(0:1, size = n2smp, replace = TRUE)  
+#' getMomEdgeBias2(smp2, treatment)  # pooled var, moments 3 - 6 naive biased
+#' getMomEdgeUnb2( smp2, treatment)
+#'  
+#' @export
 getMomEdgeBias <- function(smp) {
   n <- length(smp)
   mu <- numeric(5)
@@ -198,6 +212,7 @@ getMomEdgeBias <- function(smp) {
   return(mu)
 }
 #' @rdname momEdge
+#' @export
 getMomEdgeUnb <- function(smp) {
   n <- length(smp)
   m1 <- mean(smp)
@@ -212,6 +227,7 @@ getMomEdgeUnb <- function(smp) {
   return(c(mu2 = M2, mu3 = M3, mu4 = M4, mu5 = M5, mu6 = M6))
 }
 #' @rdname momEdge
+#' @export
 getMomEdgeBias2 <- function(smp, a) {
   smpx <- smp[a == max(a)]
   smpy <- smp[a == min(a)]
@@ -228,6 +244,7 @@ getMomEdgeBias2 <- function(smp, a) {
   return(mu)
 }
 #' @rdname momEdge
+#' @export
 getMomEdgeUnb2 <- function(smp, a) {
   smpx <- smp[a == max(a)]
   smpy <- smp[a == min(a)]
@@ -254,6 +271,10 @@ getMomEdgeUnb2 <- function(smp, a) {
 #' @param mu vector of 2nd - 6th central moments.
 #' @return A named vector of 3rd to 6th scaled cumulants. The names of the
 #'   elements are \code{"lam3", "lam4", "lam5", "lam6"}.
+#' @examples 
+#' n <- 10
+#' smp <- rgamma(n, shape = 3)
+#' getLam(getMomEdgeUnb(smp))   
 #' @export
 getLam <- function(mu) {
   mu <- c(0, mu)  # to make index = order

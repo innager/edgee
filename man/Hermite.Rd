@@ -49,3 +49,7 @@ A vector of the same length as \code{x}.
 \description{
 Probabilists' Hermite polynomials
 }
+\examples{
+He9(1:5)
+
+}

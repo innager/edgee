@@ -23,21 +23,37 @@ getMomEdgeUnb2(smp, a)
 observations (should contain two unique values).}
 }
 \value{
-A named vector of length \code{5}. The names of the elements
-  correspond to the estimands and are \code{"mu2", "mu3", "mu4", "mu5",
+A named vector of length \code{5}. The names of the elements 
+  correspond to the estimands and are \code{"mu2", "mu3", "mu4", "mu5", 
   "mu6"}.
 }
 \description{
-Calculate central moment estimates for use in Edgeworth expansions for one-
+Calculate central moment estimates for use in Edgeworth expansions for one- 
 and two-sample t-tests.
 }
 \details{
 For one-sample estimates: \code{getMomEdgeBias()} calculates regular unbiased
-sample variance and naive biased estimates for 3rd to 6th central moments;
-\code{getMomEdgeUnb()} calculates unbiased estimates of 2nd to 6th central
-moments. For two-sample estimates, where the two populations are assumed to
-have the same variance and higher central moments: \code{getMomEdgeBias2()}
-calculates unbiased pooled variance and naive biased 3rd to 6th central
+sample variance and naive biased estimates for 3rd to 6th central moments; 
+\code{getMomEdgeUnb()} calculates unbiased estimates of 2nd to 6th central 
+moments. For two-sample estimates, where the two populations are assumed to 
+have the same variance and higher central moments: \code{getMomEdgeBias2()} 
+calculates unbiased pooled variance and naive biased 3rd to 6th central 
 moments; \code{getMomEdgeUnb2()} provides unbiased pooled estimates of 2nd to
 6th moments.
+}
+\examples{
+n     <- 10 
+n2smp <- 23
+smp <- rgamma(n, shape = 3)        
+getMomEdgeBias(smp)  # var unbiased, moments 3 - 6 naive biased
+getMomEdgeUnb( smp)
+
+smp2 <- rgamma(n2smp, shape = 3)
+treatment <- sample(0:1, size = n2smp, replace = TRUE)  
+getMomEdgeBias2(smp2, treatment)  # pooled var, moments 3 - 6 naive biased
+getMomEdgeUnb2( smp2, treatment)
+ 
+}
+\seealso{
+\code{\link{getLam}} for calculating scaled cumulants from moments.
 }

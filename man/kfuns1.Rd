@@ -45,16 +45,41 @@ K61one(A, B, mu2, mu3, mu4, mu5, mu6)
 \item{mu2, mu3, mu4, mu5, mu6}{central moments (2 - 6) or their estimates.}
 }
 \value{
-A calculated value for a respective component.
+A calculated value for the respective component.
 }
 \description{
 Calculate \code{k}'s (cumulant components) for a general version of Edgeworth
 expansions (EE) for one-sample t-statistic.
 }
 \details{
-Variance adjustment \eqn{r^2} is equal to the output of \code{K21one()},
-unless different variance estimates are used for \code{A}, numerator of
+Variance adjustment \eqn{r^2} is equal to the output of \code{K21one()}, 
+unless different variance estimates are used for \code{A}, numerator of 
 \code{k}, and \code{r}.
+}
+\examples{
+# moderated t-statistic
+if (require(limma)) {
+  # simulate high-dimensional data
+  n <- 10
+  m  <- 1e4          # number of tests
+  ns <- 0.05*m       # number of significant features
+  dat <- matrix(rgamma(m*n, shape = 3) - 3, nrow = m)
+  shifts <- runif(ns, 1, 5)
+  dat[1:ns, ] <- dat[1:ns, ] - shifts
+  # estimate prior information
+  fit <- lmFit(dat, rep(1, n))
+  fbay <- ebayes(fit)
+  # look at one feature (row of data)
+  i <- 625
+  stats <- smpStats(dat[i, ], moder = TRUE, d0 = fbay$df.prior, 
+                    s20 = fbay$s2.prior, varpost = fbay$s2.post[i])
+  vars <- names(stats)  # if want to remove carryover names
+  names(stats) <- NULL                   
+  for (j in 1:length(stats)) {
+    assign(vars[j], stats[j])
+  }
+  K32one(A, B, mu2, mu3, mu4, mu5, mu6)
+}
 }
 \seealso{
 Other \code{k()} functions: \code{\link{kfuns2}}

@@ -17,8 +17,8 @@ mean(c((X - X-bar)^2, (Y - Y-bar)^2))} for vectors \code{X} and \code{Y}.}
 \code{X} and \code{Y}.}
 
 \item{m5}{naive biased fifth central moment estimate \eqn{m_5 = 1/(n_x + n_y)
-\sum_{i = 1}^{n_x} ((X_i - \bar{X})^5 + \sum_{i = 1}^{n_y} ((Y_i -
-\bar{Y})^5}{m[5] = mean(c((X - X-bar)^5, (Y - Y-bar)^5))} for vectors
+\sum_{i = 1}^{n_x} ((X_i - \bar{X})^5 + \sum_{i = 1}^{n_y} ((Y_i - 
+\bar{Y})^5}{m[5] = mean(c((X - X-bar)^5, (Y - Y-bar)^5))} for vectors 
 \code{X} and \code{Y}.}
 
 \item{n_x}{number of observations in the first group.}
@@ -31,6 +31,18 @@ Pooled estimate of a fifth central moment.
 \description{
 Calculate pooled unbiased estimates of central moments and their powers and
 products.
+}
+\examples{
+n1 <- 10
+n2 <- 8
+shp <- 3
+smp1 <- rgamma(n1, shape = shp) - shp
+smp2 <- rgamma(n2, shape = shp)
+for (j in 2:6) {
+  assign(paste("m", j, sep = ""), 
+         mean(c((smp1 - mean(smp1))^j, (smp2 - mean(smp2))^j)))
+}          
+M5two(m2, m3, m5, n1, n2)
 }
 \seealso{
 Other unbiased estimates: \code{\link{M2M3one}},

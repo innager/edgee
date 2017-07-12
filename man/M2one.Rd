@@ -7,7 +7,8 @@
 M2one(m2, n)
 }
 \arguments{
-\item{m2}{naive biased variance estimate \eqn{m_2 = 1/n \sum_{i = 1}^n ((X_i - \bar{X})^2}{m[2] = mean((X - X-bar)^2)} for a vector \code{X}.}
+\item{m2}{naive biased variance estimate \eqn{m_2 = 1/n \sum_{i = 1}^n ((X_i 
+- \bar{X})^2}{m[2] = mean((X - X-bar)^2)} for a vector \code{X}.}
 
 \item{n}{sample size.}
 }
@@ -15,7 +16,16 @@ M2one(m2, n)
 Unbiased variance estimate.
 }
 \description{
-Calculate unbiased estimates of central moments and their powers and products.
+Calculate unbiased estimates of central moments and their powers and 
+products.
+}
+\examples{
+n <- 10 
+smp <- rgamma(n, shape = 3) 
+for (j in 2:6) { 
+  assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+} 
+M2one(m2, n)
 }
 \seealso{
 Other unbiased estimates: \code{\link{M2M3one}},

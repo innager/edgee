@@ -7,17 +7,30 @@
 M2pow2one(m2, m4, n)
 }
 \arguments{
-\item{m2}{naive biased variance estimate \eqn{m_2 = 1/n \sum_{i = 1}^n ((X_i - \bar{X})^2}{m[2] = mean((X - X-bar)^2)} for a vector \code{X}.}
+\item{m2}{naive biased variance estimate \eqn{m_2 = 1/n \sum_{i = 1}^n ((X_i 
+- \bar{X})^2}{m[2] = mean((X - X-bar)^2)} for a vector \code{X}.}
 
-\item{m4}{naive biased fourth central moment estimate \eqn{m_4 = 1/n \sum_{i = 1}^n ((X_i - \bar{X})^4}{m[4] = mean((X - X-bar)^4)} for a vector \code{X}.}
+\item{m4}{naive biased fourth central moment estimate \eqn{m_4 = 1/n \sum_{i 
+= 1}^n ((X_i - \bar{X})^4}{m[4] = mean((X - X-bar)^4)} for a vector 
+\code{X}.}
 
 \item{n}{sample size.}
 }
 \value{
-Unbiased estimate of squared variance \eqn{\mu_2^2}{mu[2]^2}, where \eqn{\mu_2}{mu[2]} is a variance.
+Unbiased estimate of squared variance \eqn{\mu_2^2}{\mu[2]^2}, where
+  \eqn{\mu_2}{\mu[2]} is a variance.
 }
 \description{
-Calculate unbiased estimates of central moments and their powers and products.
+Calculate unbiased estimates of central moments and their powers and 
+products.
+}
+\examples{
+n <- 10
+smp <- rgamma(n, shape = 3)
+for (j in 2:6) {
+  assign(paste("m", j, sep = ""), mean((smp - mean(smp))^j))
+}
+M2pow2one(m2, m4, n) 
 }
 \seealso{
 Other unbiased estimates: \code{\link{M2M3one}},

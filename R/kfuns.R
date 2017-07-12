@@ -4,6 +4,9 @@
 #' @param x numeric vector.
 #' 
 #' @return A vector of the same length as \code{x}.
+#' 
+#' @examples 
+#' He9(1:5)
 #'
 He0  <- function(x) 1
 #' @rdname Hermite
@@ -45,8 +48,8 @@ He11 <- function(x) x^11 - 55*x^9 + 990*x^7 - 6930*x^5 + 17325*x^3 - 10395*x
 #' Calculate \code{k}'s (cumulant components) for a general version of Edgeworth
 #' expansions (EE) for one-sample t-statistic.
 #' 
-#' Variance adjustment \eqn{r^2} is equal to the output of \code{K21one()},
-#' unless different variance estimates are used for \code{A}, numerator of
+#' Variance adjustment \eqn{r^2} is equal to the output of \code{K21one()}, 
+#' unless different variance estimates are used for \code{A}, numerator of 
 #' \code{k}, and \code{r}.
 #' 
 #' @name kfuns1
@@ -56,7 +59,31 @@ He11 <- function(x) x^11 - 55*x^9 + 990*x^7 - 6930*x^5 + 17325*x^3 - 10395*x
 #' @param B value of \code{B} (depends on the type of the test).
 #' @param mu2,mu3,mu4,mu5,mu6 central moments (2 - 6) or their estimates.
 #'   
-#' @return A calculated value for a respective component.
+#' @return A calculated value for the respective component.
+#' @examples 
+#' # moderated t-statistic
+#' if (require(limma)) {
+#'   # simulate high-dimensional data
+#'   n <- 10
+#'   m  <- 1e4          # number of tests
+#'   ns <- 0.05*m       # number of significant features
+#'   dat <- matrix(rgamma(m*n, shape = 3) - 3, nrow = m)
+#'   shifts <- runif(ns, 1, 5)
+#'   dat[1:ns, ] <- dat[1:ns, ] - shifts
+#'   # estimate prior information
+#'   fit <- lmFit(dat, rep(1, n))
+#'   fbay <- ebayes(fit)
+#'   # look at one feature (row of data)
+#'   i <- 625
+#'   stats <- smpStats(dat[i, ], moder = TRUE, d0 = fbay$df.prior, 
+#'                     s20 = fbay$s2.prior, varpost = fbay$s2.post[i])
+#'   vars <- names(stats)  # if want to remove carryover names
+#'   names(stats) <- NULL                   
+#'   for (j in 1:length(stats)) {
+#'     assign(vars[j], stats[j])
+#'   }
+#'   K32one(A, B, mu2, mu3, mu4, mu5, mu6)
+#' }
 #' @rdname kfuns1
 #' @export
 K12one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
@@ -135,24 +162,47 @@ K61one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
                                                                                                                                                                                        73*mu2^2*mu3^2)*mu4)*B^4)/A^7
 }	
 
-#' \code{k()} functions for Edgeworth expansions - two-sample 
+#' \code{k()} functions for Edgeworth expansions - two-sample
 #' 
-#' Calculate \code{k}'s (cumulant components) for a general version of Edgeworth expansions (EE) for two-sample t-statistic.
+#' Calculate \code{k}'s (cumulant components) for a general version of Edgeworth
+#' expansions (EE) for two-sample t-statistic.
 #' 
-#' Note that the test statistic for this Edgeworth expansion is defined as \eqn{\sqrt{n}(\bar{X} - \bar{Y})/s}{sqrt(n)(X-bar - Y-bar)/s} and therefore \code{X} would normally represent a treatment group and \code{Y} - control group. Variance adjustment \eqn{r^2} is equal to the output of \code{K21two()}, unless different variance estimates are used for \code{A}, numerator of \code{k}, and \code{r}.
+#' Note that the test statistic for this Edgeworth expansion is defined as 
+#' \eqn{\sqrt{n}(\bar{X} - \bar{Y})/s}{sqrt(n)(X-bar - Y-bar)/s} and therefore 
+#' \code{X} would normally represent a treatment group and \code{Y} - control 
+#' group. Variance adjustment \eqn{r^2} is equal to the output of 
+#' \code{K21two()}, unless different variance estimates are used for \code{A}, 
+#' numerator of \code{k}, and \code{r}.
 #' 
 #' @name kfuns2
 #' @family \code{k()} functions
-#' 
+#'   
 #' @param A value of \code{A}.
 #' @param B_x value of \eqn{B_x}{B[x]} (depends on the type of the test).
-#' @param B_y value of \eqn{B_y}{B[y]} (depends on the type of the test). 
-#' @param b_x value of \eqn{b_x}{b[x]} - equal to \eqn{n/n_x}{n/n[x]}, where \eqn{n = (n_x + n_y)/2}{n = (n[x] + n[y])/2}.
-#' @param b_y value of \eqn{b_y}{b[y]} - equal to \eqn{n/n_y}{n/n[y]}, where \eqn{n = (n_x + n_y)/2}{n = (n[x] + n[y])/2}.
-#' @param mu_x2,mu_x3,mu_x4,mu_x5,mu_x6 central moments (2 - 6) for a treatment group or their estimates.
-#' @param mu_y2,mu_y3,mu_y4,mu_y5,mu_y6 central moments (2 - 6) for a control group or their estimates. 
-#' 
+#' @param B_y value of \eqn{B_y}{B[y]} (depends on the type of the test).
+#' @param b_x value of \eqn{b_x}{b[x]} - equal to \eqn{n/n_x}{n/n[x]}, where 
+#'   \eqn{n = (n_x + n_y)/2}{n = (n[x] + n[y])/2}.
+#' @param b_y value of \eqn{b_y}{b[y]} - equal to \eqn{n/n_y}{n/n[y]}, where 
+#'   \eqn{n = (n_x + n_y)/2}{n = (n[x] + n[y])/2}.
+#' @param mu_x2,mu_x3,mu_x4,mu_x5,mu_x6 central moments (2 - 6) for a treatment 
+#'   group or their estimates.
+#' @param mu_y2,mu_y3,mu_y4,mu_y5,mu_y6 central moments (2 - 6) for a control 
+#'   group or their estimates.
+#'   
 #' @return A calculated value for a respective component.
+#' @examples 
+#' n1 <- 10
+#' n2 <- 8
+#' smp <- c(rgamma(n1, shape = 3), rnorm(n2))
+#' a <- rep(1:0, c(n1, n2))
+#' stats <- smpStats(smp, a, type = "Welch")
+#' vars <- names(stats)  # if want to remove carryover names
+#' names(stats) <- NULL                   
+#' for (j in 1:length(stats)) {
+#'   assign(vars[j], stats[j])
+#' }
+#' K32two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, 
+#'                               mu_y2, mu_y3, mu_y4, mu_y5, mu_y6)
 #' @rdname kfuns2
 #' @export
 K12two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
@@ -251,6 +301,8 @@ K31two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
   -(3*B_x*b_x^2*mu_x2*mu_x3 + 3*B_x*b_x*b_y*mu_x3*mu_y2 - (b_x^2*mu_x3 -
                                                              b_y^2*mu_y3)*A - 3*(B_y*b_x*b_y*mu_x2 + B_y*b_y^2*mu_y2)*mu_y3)/A^(5/2)
 }
+#' @rdname kfuns2
+#' @export
 K32two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                    mu_y2, mu_y3, mu_y4, mu_y5, mu_y6) {
   1/8*(123*B_x^3*b_x^3*mu_x2^3*mu_x3 +

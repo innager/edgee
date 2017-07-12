@@ -8,6 +8,7 @@
 \alias{K22two}
 \alias{K23two}
 \alias{K31two}
+\alias{K32two}
 \alias{K41two}
 \alias{K42two}
 \alias{K51two}
@@ -32,6 +33,9 @@ K23two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
 K31two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
   mu_y4, mu_y5, mu_y6)
 
+K32two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
+  mu_y4, mu_y5, mu_y6)
+
 K41two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
   mu_y4, mu_y5, mu_y6)
 
@@ -51,22 +55,46 @@ K61two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
 
 \item{B_y}{value of \eqn{B_y}{B[y]} (depends on the type of the test).}
 
-\item{b_x}{value of \eqn{b_x}{b[x]} - equal to \eqn{n/n_x}{n/n[x]}, where \eqn{n = (n_x + n_y)/2}{n = (n[x] + n[y])/2}.}
+\item{b_x}{value of \eqn{b_x}{b[x]} - equal to \eqn{n/n_x}{n/n[x]}, where 
+\eqn{n = (n_x + n_y)/2}{n = (n[x] + n[y])/2}.}
 
-\item{b_y}{value of \eqn{b_y}{b[y]} - equal to \eqn{n/n_y}{n/n[y]}, where \eqn{n = (n_x + n_y)/2}{n = (n[x] + n[y])/2}.}
+\item{b_y}{value of \eqn{b_y}{b[y]} - equal to \eqn{n/n_y}{n/n[y]}, where 
+\eqn{n = (n_x + n_y)/2}{n = (n[x] + n[y])/2}.}
 
-\item{mu_x2, mu_x3, mu_x4, mu_x5, mu_x6}{central moments (2 - 6) for a treatment group or their estimates.}
+\item{mu_x2, mu_x3, mu_x4, mu_x5, mu_x6}{central moments (2 - 6) for a treatment 
+group or their estimates.}
 
-\item{mu_y2, mu_y3, mu_y4, mu_y5, mu_y6}{central moments (2 - 6) for a control group or their estimates.}
+\item{mu_y2, mu_y3, mu_y4, mu_y5, mu_y6}{central moments (2 - 6) for a control 
+group or their estimates.}
 }
 \value{
 A calculated value for a respective component.
 }
 \description{
-Calculate \code{k}'s (cumulant components) for a general version of Edgeworth expansions (EE) for two-sample t-statistic.
+Calculate \code{k}'s (cumulant components) for a general version of Edgeworth
+expansions (EE) for two-sample t-statistic.
 }
 \details{
-Note that the test statistic for this Edgeworth expansion is defined as \eqn{\sqrt{n}(\bar{X} - \bar{Y})/s}{sqrt(n)(X-bar - Y-bar)/s} and therefore \code{X} would normally represent a treatment group and \code{Y} - control group. Variance adjustment \eqn{r^2} is equal to the output of \code{K21two()}, unless different variance estimates are used for \code{A}, numerator of \code{k}, and \code{r}.
+Note that the test statistic for this Edgeworth expansion is defined as 
+\eqn{\sqrt{n}(\bar{X} - \bar{Y})/s}{sqrt(n)(X-bar - Y-bar)/s} and therefore 
+\code{X} would normally represent a treatment group and \code{Y} - control 
+group. Variance adjustment \eqn{r^2} is equal to the output of 
+\code{K21two()}, unless different variance estimates are used for \code{A}, 
+numerator of \code{k}, and \code{r}.
+}
+\examples{
+n1 <- 10
+n2 <- 8
+smp <- c(rgamma(n1, shape = 3), rnorm(n2))
+a <- rep(1:0, c(n1, n2))
+stats <- smpStats(smp, a, type = "Welch")
+vars <- names(stats)  # if want to remove carryover names
+names(stats) <- NULL                   
+for (j in 1:length(stats)) {
+  assign(vars[j], stats[j])
+}
+K32two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, 
+                              mu_y2, mu_y3, mu_y4, mu_y5, mu_y6)
 }
 \seealso{
 Other \code{k()} functions: \code{\link{kfuns1}}

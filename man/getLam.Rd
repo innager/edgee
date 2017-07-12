@@ -17,3 +17,8 @@ A named vector of 3rd to 6th scaled cumulants. The names of the
 Calculate skewness, kurtosis, and 5th and 6th scaled cumulants from central
 moments or their estimates.
 }
+\examples{
+n <- 10
+smp <- rgamma(n, shape = 3)
+getLam(getMomEdgeUnb(smp))   
+}

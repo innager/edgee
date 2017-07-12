@@ -109,7 +109,7 @@ head(res, 3)
 
 }
 \seealso{
-\code{\link{taleDiag}} for tail daignostic, \code{\link{makeFx}}, 
+\code{\link{tailDiag}} for tail daignostic, \code{\link{makeFx}}, 
   \code{\link{Ftshort}}, and \code{\link{Ftgen}} for calculating Edgeworth 
   expansions of orders 1 to 5, and \code{\link{smpStats}} for extracting 
   statistics needed to calculate EE from a sample.

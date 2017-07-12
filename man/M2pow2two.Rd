@@ -21,11 +21,24 @@ n_y) \sum_{i = 1}^{n_x} ((X_i - \bar{X})^4 + \sum_{i = 1}^{n_y} ((Y_i -
 \item{n_y}{number of observations in the second group.}
 }
 \value{
-Pooled estimate of squared variance \eqn{\mu_2^2}{mu[2]^2}, where \eqn{\mu_2}{mu[2]} is a variance.
+Pooled estimate of squared variance \eqn{\mu_2^2}{\mu[2]^2}, where
+  \eqn{\mu_2}{\mu[2]} is a variance.
 }
 \description{
 Calculate pooled unbiased estimates of central moments and their powers and
 products.
+}
+\examples{
+n1 <- 10
+n2 <- 8
+shp <- 3
+smp1 <- rgamma(n1, shape = shp) - shp
+smp2 <- rgamma(n2, shape = shp)
+for (j in 2:6) {
+  assign(paste("m", j, sep = ""), 
+         mean(c((smp1 - mean(smp1))^j, (smp2 - mean(smp2))^j)))
+}          
+M2pow2two(m2, m4, n1, n2)
 }
 \seealso{
 Other unbiased estimates: \code{\link{M2M3one}},

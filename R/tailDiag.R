@@ -81,7 +81,7 @@
 #' n2 <- 8
 #' smp2 <- c(smp, rnorm(n2))
 #' a <- rep(0:1, c(n, n2))
-#' stats2 <- smpStats(smp, a)
+#' stats2 <- smpStats(smp2, a)
 #' tailDiag(stats2, (n + n2)/2, type = "two-sample")
 #' 
 #' @export

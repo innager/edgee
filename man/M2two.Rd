@@ -22,6 +22,18 @@ Pooled variance estimate.
 Calculate pooled unbiased estimates of central moments and their powers and
 products.
 }
+\examples{
+n1 <- 10
+n2 <- 8
+shp <- 3
+smp1 <- rgamma(n1, shape = shp) - shp
+smp2 <- rgamma(n2, shape = shp)
+for (j in 2:6) {
+  assign(paste("m", j, sep = ""), 
+         mean(c((smp1 - mean(smp1))^j, (smp2 - mean(smp2))^j)))
+}          
+M2two(m2, n1, n2)
+}
 \seealso{
 Other unbiased estimates: \code{\link{M2M3one}},
   \code{\link{M2M3two}}, \code{\link{M2M4one}},

@@ -34,8 +34,8 @@ orders contain estimates of the variance and third central moment, fourth
 order includes estimates of fourth moment and squared variance 
 (\eqn{\mu_2^2}{\mu[2]^2}), fifth order - of fifth moment and a product of 
 second and third moments (\eqn{\mu_2 \mu_3}{\mu[2] \mu[3]}), sixth order - of
-sixth moment, a product of second and fourth moments (\eqn{\mu_2
-\mu_4}{\mu[2] \mu[4]}), squared third moment (\eqn{\mu_3^2}{\mu[3]^2}), and
+sixth moment, a product of second and fourth moments (\eqn{\mu_2 
+\mu_4}{\mu[2] \mu[4]}), squared third moment (\eqn{\mu_3^2}{\mu[3]^2}), and 
 cubed variance (\eqn{\mu_2^3}{\mu[2]^3}).
 }
 \examples{
