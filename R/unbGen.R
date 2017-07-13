@@ -216,14 +216,15 @@ getMomEdgeBias <- function(smp) {
 getMomEdgeUnb <- function(smp) {
   n <- length(smp)
   m1 <- mean(smp)
+  m <- numeric(6)  # index will match the order
   for (j in 2:6) {
-    assign(paste("m", j, sep = ""), mean((smp - m1)^j))
+    m[j] <- mean((smp - m1)^j)
   }
-  M2 <- M2one(m2, n)
-  M3 <- M3one(m3, n)
-  M4 <- M4one(m2, m4, n)
-  M5 <- M5one(m2, m3, m5, n)
-  M6 <- M6one(m2, m3, m4, m6, n)
+  M2 <- M2one(m[2], n)
+  M3 <- M3one(m[3], n)
+  M4 <- M4one(m[2], m[4], n)
+  M5 <- M5one(m[2], m[3], m[5], n)
+  M6 <- M6one(m[2], m[3], m[4], m[6], n)
   return(c(mu2 = M2, mu3 = M3, mu4 = M4, mu5 = M5, mu6 = M6))
 }
 #' @rdname momEdge
@@ -252,14 +253,15 @@ getMomEdgeUnb2 <- function(smp, a) {
   ny <- length(smpy)
   mx1 <- mean(smpx)
   my1 <- mean(smpy)
+  m <- numeric(6)  # index will match the order
   for (j in 2:6) {
-    assign(paste("m", j, sep = ""), mean(c((smpx - mx1)^j, (smpy - my1)^j)))
+    m[j] <- mean(c((smpx - mx1)^j, (smpy - my1)^j))
   }
-  M2 <- M2two(m2, nx, ny)
-  M3 <- M3two(m3, nx, ny)
-  M4 <- M4two(m2, m4, nx, ny)
-  M5 <- M5two(m2, m3, m5, nx, ny)
-  M6 <- M6two(m2, m3, m4, m6, nx, ny)
+  M2 <- M2two(m[2], nx, ny)
+  M3 <- M3two(m[3], nx, ny)
+  M4 <- M4two(m[2], m[4], nx, ny)
+  M5 <- M5two(m[2], m[3], m[5], nx, ny)
+  M6 <- M6two(m[2], m[3], m[4], m[6], nx, ny)
   return(c(mu2 = M2, mu3 = M3, mu4 = M4, mu5 = M5, mu6 = M6))
 }
 

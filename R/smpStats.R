@@ -52,7 +52,7 @@
 #' smpStats(smp2, a, unbiased.mom = FALSE)
 #' 
 #' # moderated t-statistic
-#' if (require(limma)) {
+#' if (requireNamespace("limma")) {
 #'   # simulate high-dimensional data
 #'   m  <- 1e4          # number of tests
 #'   ns <- 0.05*m       # number of significant features
@@ -60,8 +60,8 @@
 #'   shifts <- runif(ns, 1, 5)
 #'   dat[1:ns, ] <- dat[1:ns, ] - shifts
 #'   # estimate prior information
-#'   fit <- lmFit(dat, rep(1, n))
-#'   fbay <- ebayes(fit)
+#'   fit <- limma::lmFit(dat, rep(1, n))
+#'   fbay <- limma::ebayes(fit)
 #'   # look at one feature (row of data)
 #'   i <- 625
 #'   smpStats(dat[i, ], moder = TRUE, d0 = fbay$df.prior, s20 = fbay$s2.prior, 

@@ -98,14 +98,11 @@ tailDiag <- function(stats, n, type = "short", df = NULL, moder = FALSE,
 			}
 		}
 	} else {
-		# extract all the needed variables from the named vector
-	  vars <- gsub("\\..*", "", names(stats))  # remove everything after dot
-	  if ("d0" %in% vars && is.infinite(stats[grepl("d0", vars)])) {
+	  # remove everything after dot in names(stats)
+	  names(stats) <- gsub("\\..*", "", names(stats))  
+	  if ("d0" %in% names(stats) && is.infinite(stats['d0'])) {
 	    stop("prior degrees of freedom not finite")
 	  }
-		for (i in 1:length(stats)) {
-			assign(vars[i], stats[i])
-		}
 	}
 	if (is.null(df)) {
 		if (type %in% c("one-sample", "short")) {
@@ -114,7 +111,7 @@ tailDiag <- function(stats, n, type = "short", df = NULL, moder = FALSE,
 			df = 2*n - 2
 		}
 		if (moder) {
-			df <- df + d0  # d0 should be unpacked from stats
+			df <- df + stats['d0']  
 		}
 	}
 
@@ -122,43 +119,12 @@ tailDiag <- function(stats, n, type = "short", df = NULL, moder = FALSE,
 		if (is.null(names(stats))) {
 			qargs <- stats
 		} else {
-			qargs <- c(lam3, lam4, lam5, lam6)
+			qargs <- c(stats['lam3'], stats['lam4'], stats['lam5'], stats['lam6'])
 		}
 	} else if (type == "one-sample") {
-		qargs <- c(K12one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K13one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K21one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K22one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K23one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K31one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K32one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K41one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K42one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K51one(A, B, mu2, mu3, mu4, mu5, mu6),
-		       K61one(A, B, mu2, mu3, mu4, mu5, mu6))
+		qargs <- calculateK1smp(stats)
 	} else if (type == "two-sample") {
-	  qargs <- c(K12two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-	             K13two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-               K21two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-               K22two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-               K23two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-               K31two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-		           K32two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-		           K41two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-    		       K42two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-		           K51two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ),
-		           K61two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                      mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 ))
+	  qargs <- calculateK2smp(stats)
 	}
 
 	xright <- seq(lim[1], lim[2], length.out = ncheck + 1)

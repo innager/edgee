@@ -64,24 +64,26 @@ makeQx <- function(stats, type = "short", r = NULL, verbose = TRUE) {
       if (verbose) {
         message("no names provided for stats; assumed to be scaled cumulants")
       }	
-      for (i in 1:4) {
-        assign(paste("lam", i + 2, sep = ""), stats[i])
-      }	
+      lam3 <- stats[1]
+      lam4 <- stats[2]
+      lam5 <- stats[3]
+      lam6 <- stats[4]
     }
   } else {
-    # extract all the needed variables from the named vector 
-    vars <- gsub("\\..*", "", names(stats))  # remove everything after dot
-    if ("d0" %in% vars && is.infinite(stats[grepl("d0", vars)])) {
+    # remove everything after dot in names(stats)
+    names(stats) <- gsub("\\..*", "", names(stats))  
+    if ("d0" %in% names(stats) && is.infinite(stats['d0'])) {
       stop("prior degrees of freedom not finite")
     }
-    names(stats) <- NULL                     # to remove names from output
-    for (i in 1:length(stats)) {
-      assign(vars[i], stats[i])
-    }	
   }
   
   # one-sample, biased or unbiased (for unbiased, use x1 = sqrt(C)*x)
   if (type == "short") {
+    lam3 <- stats['lam3']  # not required to be in order if named
+    lam4 <- stats['lam4']
+    lam5 <- stats['lam5']
+    lam6 <- stats['lam6']
+    names(lam3) <- names(lam4) <- names(lam5) <- names(lam6) <- NULL
     q1 <- function(x) 1/6*(2*x^2 + 1)*lam3
     q2 <- function(x) -1/18*(x^5 + 2*x^3 - 3*x)*lam3^2 - 1/4*x^3 + 
       1/12*(x^3 - 3*x)*lam4 - 3/4*x
@@ -98,45 +100,24 @@ makeQx <- function(stats, type = "short", r = NULL, verbose = TRUE) {
     return(list(q1 = q1, q2 = q2, q3 = q3, q4 = q4))                   
   }
   
-  if (type == "one-sample") {
-    k12 <- K12one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k13 <- K13one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k21 <- K21one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k22 <- K22one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k23 <- K23one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k31 <- K31one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k32 <- K32one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k41 <- K41one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k42 <- K42one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k51 <- K51one(A, B, mu2, mu3, mu4, mu5, mu6)
-    k61 <- K61one(A, B, mu2, mu3, mu4, mu5, mu6)
+  if        (type == "one-sample") {
+    k <- calculateK1smp(stats)
+  } else if (type == "two-sample") {
+    k <- calculateK2smp(stats)
   }
-  if (type == "two-sample") {
-    k12 <- K12two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k13 <- K13two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k21 <- K21two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k22 <- K22two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k23 <- K23two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k31 <- K31two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k32 <- K32two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k41 <- K41two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k42 <- K42two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k51 <- K51two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-    k61 <- K61two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
-                  mu_y2, mu_y3, mu_y4, mu_y5, mu_y6 )
-  }
-  if (is.null(r)) r <- sqrt(k21)
-  
+  names(k) <- NULL  # to remove names from output
+  k12 <- k[1]
+  k13 <- k[2]
+  if (is.null(r)) r <- sqrt(k[3])  # k21 = k[3]
+  k22 <- k[4]
+  k23 <- k[5]
+  k31 <- k[6]
+  k32 <- k[7]
+  k41 <- k[8]
+  k42 <- k[9]
+  k51 <- k[10]
+  k61 <- k[11]
+
   q1 <- function(x) -1/6*He2(x)*k31/r^3 - He0(x)*k12/r
   q2 <- function(x) -1/72*He5(x)*k31^2/r^6 - 1/24*(4*k12*k31 + k41)*He3(x)/r^4 - 
     1/2*(k12^2 + k22)*He1(x)/r^2

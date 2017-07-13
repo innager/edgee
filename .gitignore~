@@ -3,4 +3,3 @@
 .RData
 *.o
 *.so
-tests/*

@@ -6,11 +6,12 @@ Authors@R: c(person("Inna", "Gerlovina", email = "innager@berkeley.edu",
              person("Alan", "Hubbard", role = "aut"))
 Author: Inna Gerlovina [aut, cre],
         Alan E. Hubbard [aut]
-Maintainer: Inna Gerlovina <innager@berkeley.edu>	
+Maintainer: Inna Gerlovina <innager@berkeley.edu>
 Description: The package performs high-dimensional data analysis using empirical Edgeworth expansions (EE) for one- and two-sample ordinary and moderated t-statistics, as well as Welch t-test. It performs tail diagnostic based on EE and calculates various components of EE when distribution parameters or their estimates are provided. The package also includes unbiased central moment estimators for one- and two-sample tests up to 6th order.
 Depends: R (>= 3.4.0)
-Imports: limma
-License: What license is it under?
+Imports: stats
+Suggests: limma
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

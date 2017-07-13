@@ -62,7 +62,7 @@ He11 <- function(x) x^11 - 55*x^9 + 990*x^7 - 6930*x^5 + 17325*x^3 - 10395*x
 #' @return A calculated value for the respective component.
 #' @examples 
 #' # moderated t-statistic
-#' if (require(limma)) {
+#' if (requireNamespace("limma")) {
 #'   # simulate high-dimensional data
 #'   n <- 10
 #'   m  <- 1e4          # number of tests
@@ -71,8 +71,8 @@ He11 <- function(x) x^11 - 55*x^9 + 990*x^7 - 6930*x^5 + 17325*x^3 - 10395*x
 #'   shifts <- runif(ns, 1, 5)
 #'   dat[1:ns, ] <- dat[1:ns, ] - shifts
 #'   # estimate prior information
-#'   fit <- lmFit(dat, rep(1, n))
-#'   fbay <- ebayes(fit)
+#'   fit <- limma::lmFit(dat, rep(1, n))
+#'   fbay <- limma::ebayes(fit)
 #'   # look at one feature (row of data)
 #'   i <- 625
 #'   stats <- smpStats(dat[i, ], moder = TRUE, d0 = fbay$df.prior, 
@@ -161,6 +161,32 @@ K61one <- function(A, B, mu2, mu3, mu4, mu5, mu6) {
                                                                                                                                     73*mu2^4*mu3^2 + 80*mu2*mu3^4 + 4*mu2^3*mu4^2 - (8*mu2^5 -
                                                                                                                                                                                        73*mu2^2*mu3^2)*mu4)*B^4)/A^7
 }	
+
+# internal
+calculateK1smp <- function(stats) {
+  c(K12one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K13one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K21one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K22one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K23one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K31one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K32one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K41one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K42one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K51one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']),
+    K61one(stats['A'], stats['B'], stats['mu2'], stats['mu3'], stats['mu4'], 
+           stats['mu5'], stats['mu6']))
+}
 
 #' \code{k()} functions for Edgeworth expansions - two-sample
 #' 
@@ -713,4 +739,51 @@ K61two <- function(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                       B_x*B_y^3*b_x*b_y^4*mu_x3*mu_y2^2)*mu_y3)*mu_y4)/A^7
 }	
 
+# internal
+calculateK2smp <- function(stats) {
+  c(K12two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K13two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K21two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K22two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K23two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K31two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K32two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K41two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K42two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K51two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']),
+    K61two(stats['A'], stats['B_x'], stats['B_y'], stats['b_x'], stats['b_y'],
+           stats['mu_x2'], stats['mu_x3'], stats['mu_x4'], stats['mu_x5'], 
+           stats['mu_x6'], stats['mu_y2'], stats['mu_y3'], stats['mu_y4'], 
+           stats['mu_y5'],  stats['mu_y6']))
+}
 

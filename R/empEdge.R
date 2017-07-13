@@ -95,7 +95,8 @@
 #' head(res, 3)  
 #' 
 #' @export
-#' @useDynLib edgee
+#' @useDynLib edgee, .registration=TRUE
+#' @importFrom stats dnorm pnorm dt pt var model.matrix
 
 empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL, 
                     unbiased.mom = TRUE, alpha = 0.05, ncheck = 30, 
@@ -154,10 +155,12 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
 	  return(co$pval)
 	}
   
-  if (!require(limma)) stop("Please install package 'limma' from Bioconductor")
+  if (!requireNamespace("limma", quietly = TRUE)) {
+    stop("Please install package 'limma' from Bioconductor")
+  }
 
 	if (type %in% c("one-sample", "two-sample")) {
-		fit <- lmFit(dat, design.mat, weights = NULL) 
+		fit <- limma::lmFit(dat, design.mat, weights = NULL) 
 		nf <- sum(1/n[n != 0])             # one-smp: 1/n, two-smp: 1/nx + 1/ny
 		t.ord <- fit$coefficients[, ncol(fit$coefficients)]/(sqrt(nf)*fit$sigma)
 		if (m == 1) {
@@ -174,7 +177,7 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
 		  return(co$pval)
 		}
 		
-		fbay <- ebayes(fit)                           
+		fbay <- limma::ebayes(fit)                           
 		s20 <- fbay$s2.prior
 		d0  <- fbay$df.prior
 		if (is.infinite(d0)) {
