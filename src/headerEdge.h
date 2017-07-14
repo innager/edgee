@@ -10,6 +10,8 @@ void getm2(     double *smp, double n_x, double n_y, double *mu);
 void getLambda(double *mu, double *lam);
 void get_tArWelch(double *smpx, double *smpy, double nx, double ny,
                   double bx, double by, double Bx, double By, double *tAr);
+double gett( double *smp, double n,       double coefn);
+double gett2(double *smp, int nx, int ny, double coefn);
 
 void calculateK1smp(double *mu, double A, double B, double *k);
 void calculateK2smp(double *mu_x, double *mu_y, double A, double B_x, double B_y,

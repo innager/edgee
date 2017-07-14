@@ -1,6 +1,6 @@
 Package: edgee
 Title: Edgeworth expansions and higher-order inference
-Version: 0.0.0.9000
+Version: 0.99.0
 Authors@R: c(person("Inna", "Gerlovina", email = "innager@berkeley.edu",
                     role = c("aut", "cre")),
              person("Alan", "Hubbard", role = "aut"))

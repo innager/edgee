@@ -95,7 +95,7 @@
 #' head(res, 3)  
 #' 
 #' @export
-#' @useDynLib edgee, .registration=TRUE
+#' @useDynLib edgee
 #' @importFrom stats dnorm pnorm dt pt var model.matrix
 
 empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL, 
@@ -151,12 +151,25 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
 	    co$pval <- 2*co$pval
 	  }
 	  co$pval  <- matrix(co$pval, nrow = m, ncol = 5)
-	  colnames(co$pval)  <- c("t-dist",  paste("term",  1:4, sep = ""))
+	  colnames(co$pval)  <- c("t-dist", paste("term",  1:4, sep = ""))
 	  return(co$pval)
 	}
   
   if (!requireNamespace("limma", quietly = TRUE)) {
-    stop("Please install package 'limma' from Bioconductor")
+    warning("No results for moderated t-statistics are provided; 
+            please install package 'limma' from Bioconductor")
+    co <- .C("empEdgeOrd0", dat = as.double(dat),
+             nc = as.integer(n), nr = as.integer(m), alpha = as.double(alpha),
+             onesmp = as.integer(type == "one-sample"), 
+             side = as.character(side), ncheck = as.integer(ncheck), 
+             lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
+             pval = as.double(rep(0, m*5)))
+    if (side == "two-sided") {
+      co$pval  <- 2*co$pval
+    }
+    co$pval  <- matrix(co$pval, nrow = m, ncol = 5)
+    colnames(co$pval) <- c("t-dist", paste("term",  1:4, sep = ""))
+    return(co$pval)
   }
 
 	if (type %in% c("one-sample", "two-sample")) {
@@ -173,7 +186,7 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
 		  if (side == "two-sided") {
 		    co$pval  <- 2*co$pval
 		  }
-		  names(co$pval) <- c("t-dist",  paste("term",  1:4, sep = ""))
+		  names(co$pval) <- c("t-dist", paste("term",  1:4, sep = ""))
 		  return(co$pval)
 		}
 		
@@ -201,7 +214,7 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
 		      }}, tM, pM, side)
 		  }
 		  co$pval <- matrix(co$pval, nrow = m, ncol = 5)
-		  colnames(co$pval) <- c("t-dist",  paste("term",  1:4, sep = ""))
+		  colnames(co$pval) <- c("t-dist", paste("term",  1:4, sep = ""))
 		  return(cbind(co$pval, "tM-dist" = pM))
 		}
 		
