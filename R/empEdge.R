@@ -107,53 +107,53 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
   } 
   n <- ncol(dat)
   m <- nrow(dat)
-
+  
   if (is.null(a)) {
-  	type <- "one-sample"
-  	design.mat <- rep(1, n)
-  	n <- c(n, 0)
+    type <- "one-sample"
+    design.mat <- rep(1, n)
+    n <- c(n, 0)
   } else {
-		if (length(a) != n) stop("design does not match data")
-		if (length(unique(a)) == 1) {
-			type <- "one-sample"
-			design.mat <- rep(1, n)
-		} else if (length(unique(a)) == 2) {
-			# assume treatment code has higher numeric value than control
-		  treat <- a == max(a)
-		  n <- c(sum(treat), sum(!treat))	
-		  if (m == 1) {
-		    dat <- matrix(c(dat[, treat], dat[, !treat]), nrow = 1)
-		  } else {
-		    dat <- cbind(dat[, treat], dat[, !treat])
-		  }
-		  design.mat <- model.matrix(~ rep(1:0, n))
-			if (is.null(type)) {
-				type <- "two-sample"
-			}
-		} else {
-			stop("more than two categories in the sample")
-		}
+    if (length(a) != n) stop("design does not match data")
+    if (length(unique(a)) == 1) {
+      type <- "one-sample"
+      design.mat <- rep(1, n)
+    } else if (length(unique(a)) == 2) {
+      # assume treatment code has higher numeric value than control
+      treat <- a == max(a)
+      n <- c(sum(treat), sum(!treat))	
+      if (m == 1) {
+        dat <- matrix(c(dat[, treat], dat[, !treat]), nrow = 1)
+      } else {
+        dat <- cbind(dat[, treat], dat[, !treat])
+      }
+      design.mat <- model.matrix(~ rep(1:0, n))
+      if (is.null(type)) {
+        type <- "two-sample"
+      }
+    } else {
+      stop("more than two categories in the sample")
+    }
   }
-	
-#	if (is.null(unbiased.mom)) {
-#	  unbiased.mom <- ifelse(type %in% c("one-sample", "Welch", "welch"), 
-#	                         TRUE, FALSE)
-#	}
-
-	if (type %in% c("welch", "Welch")) {
-	  if (is.null(a) | length(unique(a)) != 2) stop("a does not match test type")
-	  co <- .C("empEdgeWelch", dat = as.double(dat), 
-	           nc = as.integer(n), nr = as.integer(m), alpha = as.double(alpha), 
-	           side = as.character(side), ncheck = as.integer(ncheck), 
-	           lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
-	           pval = as.double(rep(0, m*5)))
-	  if (side == "two-sided") {
-	    co$pval <- 2*co$pval
-	  }
-	  co$pval  <- matrix(co$pval, nrow = m, ncol = 5)
-	  colnames(co$pval)  <- c("t-dist", paste("term",  1:4, sep = ""))
-	  return(co$pval)
-	}
+  
+  #	if (is.null(unbiased.mom)) {
+  #	  unbiased.mom <- ifelse(type %in% c("one-sample", "Welch", "welch"), 
+  #	                         TRUE, FALSE)
+  #	}
+  
+  if (type %in% c("welch", "Welch")) {
+    if (is.null(a) | length(unique(a)) != 2) stop("a does not match test type")
+    co <- .C("empEdgeWelch", dat = as.double(dat), 
+             nc = as.integer(n), nr = as.integer(m), alpha = as.double(alpha), 
+             side = as.character(side), ncheck = as.integer(ncheck), 
+             lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
+             pval = as.double(rep(0, m*5)))
+    if (side == "two-sided") {
+      co$pval <- 2*co$pval
+    }
+    co$pval  <- matrix(co$pval, nrow = m, ncol = 5)
+    colnames(co$pval)  <- c("t-dist", paste("term",  1:4, sep = ""))
+    return(co$pval)
+  }
   
   if (!requireNamespace("limma", quietly = TRUE)) {
     warning("No results for moderated t-statistics are provided; 
@@ -171,74 +171,74 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
     colnames(co$pval) <- c("t-dist", paste("term",  1:4, sep = ""))
     return(co$pval)
   }
-
-	if (type %in% c("one-sample", "two-sample")) {
-		fit <- limma::lmFit(dat, design.mat, weights = NULL) 
-		nf <- sum(1/n[n != 0])             # one-smp: 1/n, two-smp: 1/nx + 1/ny
-		t.ord <- fit$coefficients[, ncol(fit$coefficients)]/(sqrt(nf)*fit$sigma)
-		if (m == 1) {
-		  co <- .C("empEdgeOrd", dat = as.double(dat),
-		           nc = as.integer(n), nr = as.integer(m), alpha = as.double(alpha),
-		           onesmp = as.integer(type == "one-sample"), 
-		           side = as.character(side), ncheck = as.integer(ncheck), 
-		           lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
-		           t.ord = as.double(t.ord), pval = as.double(rep(0, m*5)))
-		  if (side == "two-sided") {
-		    co$pval  <- 2*co$pval
-		  }
-		  names(co$pval) <- c("t-dist", paste("term",  1:4, sep = ""))
-		  return(co$pval)
-		}
-		
-		fbay <- limma::ebayes(fit)                           
-		s20 <- fbay$s2.prior
-		d0  <- fbay$df.prior
-		if (is.infinite(d0)) {
-		  co <- .C("empEdgeOrd", dat = as.double(dat),
-		           nc = as.integer(n), nr = as.integer(m), alpha = as.double(alpha),
-		           onesmp = as.integer(type == "one-sample"), 
-		           side = as.character(side), ncheck = as.integer(ncheck), 
-		           lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
-		           t.ord = as.double(t.ord), pval = as.double(rep(0, m*5)))
-		  tM <- fbay$t[, ncol(fbay$t)]
-		  pM <- fbay$p.value[, ncol(fbay$p.value)]
-		  if (side == "two-sided") {
-		    co$pval <- 2*co$pval
-		  } else {
-		    pM <- pM/2
-		    pM <- mapply(function(t, p, side) {
-		      if((t < 0 & side == "left") | (t > 0 & side == "right")) {
-		        return(p)
-		      } else {
-		        return(1 - p)
-		      }}, tM, pM, side)
-		  }
-		  co$pval <- matrix(co$pval, nrow = m, ncol = 5)
-		  colnames(co$pval) <- c("t-dist", paste("term",  1:4, sep = ""))
-		  return(cbind(co$pval, "tM-dist" = pM))
-		}
-		
-		co <- .C("empEdge", dat = as.double(dat),
-		         nc = as.integer(n), nr = as.integer(m),
-		         d0 = as.double(d0), s20 = as.double(s20), alpha = as.double(alpha),
-		         onesmp = as.integer(type == "one-sample"), 
-		         side = as.character(side), ncheck = as.integer(ncheck), 
-		         lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
-		         varpost = as.double(fbay$s2.post), t.ord = as.double(t.ord), 
-		         t.mod = as.double(fbay$t[, ncol(fbay$t)]),
-		         pval = as.double(rep(0, m*5)), pvalM = as.double(rep(0, m*5)))
-		
-		if (side == "two-sided") {
-		  co$pval  <- 2*co$pval
-		  co$pvalM <- 2*co$pvalM
-		}
-		co$pval  <- matrix(co$pval, nrow = m, ncol = 5)
-		co$pvalM <- matrix(co$pvalM, nrow = m, ncol = 5)
-		colnames(co$pval)  <- c("t-dist",  paste("term",  1:4, sep = ""))
-		colnames(co$pvalM) <- c("tM-dist", paste("termM", 1:4, sep = ""))
-		return(cbind(co$pval, co$pvalM)) 
-	} else {
-	  stop("type is not recognized")
-	}
+  
+  if (type %in% c("one-sample", "two-sample")) {
+    fit <- limma::lmFit(dat, design.mat, weights = NULL) 
+    nf <- sum(1/n[n != 0])             # one-smp: 1/n, two-smp: 1/nx + 1/ny
+    t.ord <- fit$coefficients[, ncol(fit$coefficients)]/(sqrt(nf)*fit$sigma)
+    if (m == 1) {
+      co <- .C("empEdgeOrd", dat = as.double(dat),
+               nc = as.integer(n), nr = as.integer(m), alpha = as.double(alpha),
+               onesmp = as.integer(type == "one-sample"), 
+               side = as.character(side), ncheck = as.integer(ncheck), 
+               lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
+               t.ord = as.double(t.ord), pval = as.double(rep(0, m*5)))
+      if (side == "two-sided") {
+        co$pval  <- 2*co$pval
+      }
+      names(co$pval) <- c("t-dist", paste("term",  1:4, sep = ""))
+      return(co$pval)
+    }
+    
+    fbay <- limma::ebayes(fit)                           
+    s20 <- fbay$s2.prior
+    d0  <- fbay$df.prior
+    if (is.infinite(d0)) {
+      co <- .C("empEdgeOrd", dat = as.double(dat),
+               nc = as.integer(n), nr = as.integer(m), alpha = as.double(alpha),
+               onesmp = as.integer(type == "one-sample"), 
+               side = as.character(side), ncheck = as.integer(ncheck), 
+               lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
+               t.ord = as.double(t.ord), pval = as.double(rep(0, m*5)))
+      tM <- fbay$t[, ncol(fbay$t)]
+      pM <- fbay$p.value[, ncol(fbay$p.value)]
+      if (side == "two-sided") {
+        co$pval <- 2*co$pval
+      } else {
+        pM <- pM/2
+        pM <- mapply(function(t, p, side) {
+          if((t < 0 & side == "left") | (t > 0 & side == "right")) {
+            return(p)
+          } else {
+            return(1 - p)
+          }}, tM, pM, side)
+      }
+      co$pval <- matrix(co$pval, nrow = m, ncol = 5)
+      colnames(co$pval) <- c("t-dist", paste("term",  1:4, sep = ""))
+      return(cbind(co$pval, "tM-dist" = pM))
+    }
+    
+    co <- .C("empEdge", dat = as.double(dat),
+             nc = as.integer(n), nr = as.integer(m),
+             d0 = as.double(d0), s20 = as.double(s20), alpha = as.double(alpha),
+             onesmp = as.integer(type == "one-sample"), 
+             side = as.character(side), ncheck = as.integer(ncheck), 
+             lim = as.double(lim), unbmom = as.integer(unbiased.mom), 
+             varpost = as.double(fbay$s2.post), t.ord = as.double(t.ord), 
+             t.mod = as.double(fbay$t[, ncol(fbay$t)]),
+             pval = as.double(rep(0, m*5)), pvalM = as.double(rep(0, m*5)))
+    
+    if (side == "two-sided") {
+      co$pval  <- 2*co$pval
+      co$pvalM <- 2*co$pvalM
+    }
+    co$pval  <- matrix(co$pval, nrow = m, ncol = 5)
+    co$pvalM <- matrix(co$pvalM, nrow = m, ncol = 5)
+    colnames(co$pval)  <- c("t-dist",  paste("term",  1:4, sep = ""))
+    colnames(co$pvalM) <- c("tM-dist", paste("termM", 1:4, sep = ""))
+    return(cbind(co$pval, co$pvalM)) 
+  } else {
+    stop("type is not recognized")
+  }
 }
 

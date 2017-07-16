@@ -89,56 +89,56 @@
 # r for q() not needed (reparameterization of quantile x: x = x_1/r)
 tailDiag <- function(stats, n, type = "short", df = NULL, moder = FALSE,
                      ncheck = 30, lim = c(1, 7), verbose = TRUE) {
-	if (is.null(names(stats))) {
-		if (type != "short") {
-			stop("no names provided for stats")
-		} else {
-			if (verbose) {
-				message("no names provided for stats; assumed to be scaled cumulants")
-			}
-		}
-	} else {
-	  # remove everything after dot in names(stats)
-	  names(stats) <- gsub("\\..*", "", names(stats))  
-	  if ("d0" %in% names(stats) && is.infinite(stats['d0'])) {
-	    stop("prior degrees of freedom not finite")
-	  }
-	}
-	if (is.null(df)) {
-		if (type %in% c("one-sample", "short")) {
-			df = n - 1
-		} else {
-			df = 2*n - 2
-		}
-		if (moder) {
-			df <- df + stats['d0']  
-		}
-	}
-
-	if (type == "short") {
-		if (is.null(names(stats))) {
-			qargs <- stats
-		} else {
-			qargs <- c(stats['lam3'], stats['lam4'], stats['lam5'], stats['lam6'])
-		}
-	} else if (type == "one-sample") {
-		qargs <- calculateK1smp(stats)
-	} else if (type == "two-sample") {
-	  qargs <- calculateK2smp(stats)
-	}
-
-	xright <- seq(lim[1], lim[2], length.out = ncheck + 1)
-	xleft  <- -xright
-	df <- cumsum(c(df, 2, 3, 3, 3))
-
-	co <- .C("tailDiagR", type = as.character(type),
-	                      qargs = as.double(qargs),
-	         xleft = as.double(xleft), xright = as.double(xright),
-	         n = as.double(n), nch = as.integer(ncheck + 1), df = as.double(df),
-	         lthick = as.integer(rep(0, 4)), rthick = as.integer(rep(0, 4)))
-
-	thick <- rbind(as.logical(co$lthick), as.logical(co$rthick))
-	colnames(thick) <- paste("term", 1:4)
-	rownames(thick) <- paste(c("left  tail", "right tail"), "nice")
-	return(thick)
+  if (is.null(names(stats))) {
+    if (type != "short") {
+      stop("no names provided for stats")
+    } else {
+      if (verbose) {
+        message("no names provided for stats; assumed to be scaled cumulants")
+      }
+    }
+  } else {
+    # remove everything after dot in names(stats)
+    names(stats) <- gsub("\\..*", "", names(stats))  
+    if ("d0" %in% names(stats) && is.infinite(stats['d0'])) {
+      stop("prior degrees of freedom not finite")
+    }
+  }
+  if (is.null(df)) {
+    if (type %in% c("one-sample", "short")) {
+      df = n - 1
+    } else {
+      df = 2*n - 2
+    }
+    if (moder) {
+      df <- df + stats['d0']  
+    }
+  }
+  
+  if (type == "short") {
+    if (is.null(names(stats))) {
+      qargs <- stats
+    } else {
+      qargs <- c(stats['lam3'], stats['lam4'], stats['lam5'], stats['lam6'])
+    }
+  } else if (type == "one-sample") {
+    qargs <- calculateK1smp(stats)
+  } else if (type == "two-sample") {
+    qargs <- calculateK2smp(stats)
+  }
+  
+  xright <- seq(lim[1], lim[2], length.out = ncheck + 1)
+  xleft  <- -xright
+  df <- cumsum(c(df, 2, 3, 3, 3))
+  
+  co <- .C("tailDiagR", type = as.character(type),
+           qargs = as.double(qargs),
+           xleft = as.double(xleft), xright = as.double(xright),
+           n = as.double(n), nch = as.integer(ncheck + 1), df = as.double(df),
+           lthick = as.integer(rep(0, 4)), rthick = as.integer(rep(0, 4)))
+  
+  thick <- rbind(as.logical(co$lthick), as.logical(co$rthick))
+  colnames(thick) <- paste("term", 1:4)
+  rownames(thick) <- paste(c("left  tail", "right tail"), "nice")
+  return(thick)
 }
