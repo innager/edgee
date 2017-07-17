@@ -1,46 +1,25 @@
-#' Probabilists' Hermite polynomials
-#' 
-#' @name Hermite
-#' @param x numeric vector.
-#' 
-#' @return A vector of the same length as \code{x}.
-#' 
-#' @examples 
-#' He9(1:5)
-#'
+# Probabilists' Hermite polynomials
+# 
+# @param x numeric vector.
+# 
+# @return A vector of the same length as \code{x}.
+# 
+# @examples 
+# He9(1:5)
+#
+# @name Hermite
 He0  <- function(x) 1
-#' @rdname Hermite
-#' @export
+# @rdname Hermite
 He1  <- function(x) x
-#' @rdname Hermite
-#' @export
 He2  <- function(x) x^2 - 1
-#' @rdname Hermite
-#' @export
 He3  <- function(x) x^3 - 3*x
-#' @rdname Hermite
-#' @export
 He4  <- function(x) x^4 - 6*x^2 + 3
-#' @rdname Hermite
-#' @export
 He5  <- function(x) x^5 - 10*x^3 + 15*x
-#' @rdname Hermite
-#' @export
 He6  <- function(x) x^6 - 15*x^4 + 45*x^2 - 15
-#' @rdname Hermite
-#' @export
 He7  <- function(x) x^7 - 21*x^5 + 105*x^3 - 105*x
-#' @rdname Hermite
-#' @export
 He8  <- function(x) x^8 - 28*x^6 + 210*x^4 - 420*x^2 + 105
-#' @rdname Hermite
-#' @export
 He9  <- function(x) x^9 - 36*x^7 + 378*x^5 - 1260*x^3 + 945*x
-#' @rdname Hermite
-#' @export
 He10 <- function(x) x^10 - 45*x^8 + 630*x^6 - 3150*x^4 + 4725*x^2 - 945
-#' @rdname Hermite
-#' @export
 He11 <- function(x) x^11 - 55*x^9 + 990*x^7 - 6930*x^5 + 17325*x^3 - 10395*x
 
 #' \code{k()} functions for Edgeworth expansions - one-sample
