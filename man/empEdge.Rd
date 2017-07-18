@@ -25,8 +25,7 @@ tests the value is inferred from \code{a} but for Welch t-test it needs to
 be specified.}
 
 \item{unbiased.mom}{\code{logical} value indicating if unbiased estimators 
-for third through sixth central moments should be used. Defaults to 
-\code{TRUE}.}
+for third through sixth central moments should be used.}
 
 \item{alpha}{significance level.}
 
@@ -42,7 +41,7 @@ A matrix with the same number of rows as \code{dat}, each row
   p-values will be provided for both ordinary and moderated t-statistics (10 
   columns, five orders each); for Welch t-test the matrix will have five 
   columns, and if prior degrees of freedom is \code{Inf}, only first order 
-  p-values are returned for moderated t-statistic (six columns); note that
+  p-values are returned for moderated t-statistic (six columns); note that 
   variance adjustment \eqn{r^2} is 1 in that case.
 }
 \description{
@@ -69,8 +68,8 @@ order is not determined to be helpful, p-value of a previous order is
 provided in its place.
 
 For better performance of a second order, using \code{unbiased.mom = TRUE} is
-recommended. For variance estimate, posterior variance is used for moderated
-t-statistic and unbiased/pooled variance for ordinary t.
+recommended (default). For variance estimate, posterior variance is used for
+moderated t-statistic and unbiased/pooled variance for ordinary t.
 }
 \examples{
 # simulate a data set

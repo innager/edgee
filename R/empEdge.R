@@ -22,8 +22,8 @@
 #' provided in its place.
 #' 
 #' For better performance of a second order, using \code{unbiased.mom = TRUE} is
-#' recommended. For variance estimate, posterior variance is used for moderated
-#' t-statistic and unbiased/pooled variance for ordinary t.
+#' recommended (default). For variance estimate, posterior variance is used for
+#' moderated t-statistic and unbiased/pooled variance for ordinary t.
 #' 
 #' @param dat data matrix with rows corresponding to features. The number of 
 #'   columns is a sample size and number of rows is a number of tests. If the 
@@ -38,8 +38,7 @@
 #'   tests the value is inferred from \code{a} but for Welch t-test it needs to 
 #'   be specified.
 #' @param unbiased.mom \code{logical} value indicating if unbiased estimators 
-#'   for third through sixth central moments should be used. Defaults to 
-#'   \code{TRUE}.
+#'   for third through sixth central moments should be used.
 #' @param alpha significance level.
 #' @param ncheck number of intervals for tail diagnostic.
 #' @param lim tail region for tail diagnostic. Provide the endpoints for the 
@@ -51,7 +50,7 @@
 #'   p-values will be provided for both ordinary and moderated t-statistics (10 
 #'   columns, five orders each); for Welch t-test the matrix will have five 
 #'   columns, and if prior degrees of freedom is \code{Inf}, only first order 
-#'   p-values are returned for moderated t-statistic (six columns); note that
+#'   p-values are returned for moderated t-statistic (six columns); note that 
 #'   variance adjustment \eqn{r^2} is 1 in that case.
 #'   
 #' @seealso \code{\link{tailDiag}} for tail daignostic, \code{\link{makeFx}}, 
@@ -134,12 +133,7 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
       stop("more than two categories in the sample")
     }
   }
-  
-  #	if (is.null(unbiased.mom)) {
-  #	  unbiased.mom <- ifelse(type %in% c("one-sample", "Welch", "welch"), 
-  #	                         TRUE, FALSE)
-  #	}
-  
+
   if (type %in% c("welch", "Welch")) {
     if (is.null(a) | length(unique(a)) != 2) stop("a does not match test type")
     co <- .C("empEdgeWelch", dat = as.double(dat), 
