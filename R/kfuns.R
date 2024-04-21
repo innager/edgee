@@ -51,7 +51,7 @@ He11 <- function(x) x^11 - 55*x^9 + 990*x^7 - 6930*x^5 + 17325*x^3 - 10395*x
 #'   dat[1:ns, ] <- dat[1:ns, ] - shifts
 #'   # estimate prior information
 #'   fit <- limma::lmFit(dat, rep(1, n))
-#'   fbay <- limma::ebayes(fit)
+#'   fbay <- limma::eBayes(fit)
 #'   # look at one feature (row of data)
 #'   i <- 625
 #'   stats <- smpStats(dat[i, ], moder = TRUE, d0 = fbay$df.prior, 

@@ -38,14 +38,25 @@ for (j in 2:6) {
 M6one(m2, m3, m4, m6, n)
 }
 \seealso{
-Other unbiased estimates: \code{\link{M2M3one}},
-  \code{\link{M2M3two}}, \code{\link{M2M4one}},
-  \code{\link{M2M4two}}, \code{\link{M2one}},
-  \code{\link{M2pow2one}}, \code{\link{M2pow2two}},
-  \code{\link{M2pow3one}}, \code{\link{M2pow3two}},
-  \code{\link{M2two}}, \code{\link{M3one}},
-  \code{\link{M3pow2one}}, \code{\link{M3pow2two}},
-  \code{\link{M3two}}, \code{\link{M4one}},
-  \code{\link{M4two}}, \code{\link{M5one}},
-  \code{\link{M5two}}, \code{\link{M6two}}
+Other unbiased estimates: 
+\code{\link{M2M3one}()},
+\code{\link{M2M3two}()},
+\code{\link{M2M4one}()},
+\code{\link{M2M4two}()},
+\code{\link{M2one}()},
+\code{\link{M2pow2one}()},
+\code{\link{M2pow2two}()},
+\code{\link{M2pow3one}()},
+\code{\link{M2pow3two}()},
+\code{\link{M2two}()},
+\code{\link{M3one}()},
+\code{\link{M3pow2one}()},
+\code{\link{M3pow2two}()},
+\code{\link{M3two}()},
+\code{\link{M4one}()},
+\code{\link{M4two}()},
+\code{\link{M5one}()},
+\code{\link{M5two}()},
+\code{\link{M6two}()}
 }
+\concept{unbiased estimates}

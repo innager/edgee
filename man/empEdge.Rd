@@ -4,8 +4,16 @@
 \alias{empEdge}
 \title{Empirical Edgeworth expansions for high-dimensional data analysis}
 \usage{
-empEdge(dat, a = NULL, side = "two-sided", type = NULL,
-  unbiased.mom = TRUE, alpha = 0.05, ncheck = 30, lim = c(1, 7))
+empEdge(
+  dat,
+  a = NULL,
+  side = "two-sided",
+  type = NULL,
+  unbiased.mom = TRUE,
+  alpha = 0.05,
+  ncheck = 30,
+  lim = c(1, 7)
+)
 }
 \arguments{
 \item{dat}{data matrix with rows corresponding to features. The number of 
@@ -100,7 +108,7 @@ if (require(limma)) {
     dat <- matrix(rnorm(m*nx), nrow = m)
     dat[1:ns, ] <- dat[1:ns, ] + shifts
     fit <- lmFit(dat, rep(1, nx)) 
-    d0 <- ebayes(fit)$df.prior
+    d0 <- eBayes(fit)$df.prior
   }
 } 
 res <- empEdge(dat, side = "right")

@@ -62,7 +62,7 @@ t-statistic or a Welch test.
 }
 \examples{
 n <- 10                 # sample size
-# Gamma distribution with shape parameter \\code{shp}
+# Gamma distribution with shape parameter \code{shp}
 shp <- 3
 ord <- 3:6              # orders of scaled cumulants
 lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)

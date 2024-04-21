@@ -87,7 +87,7 @@
 #'     dat <- matrix(rnorm(m*nx), nrow = m)
 #'     dat[1:ns, ] <- dat[1:ns, ] + shifts
 #'     fit <- lmFit(dat, rep(1, nx)) 
-#'     d0 <- ebayes(fit)$df.prior
+#'     d0 <- eBayes(fit)$df.prior
 #'   }
 #' } 
 #' res <- empEdge(dat, side = "right")
@@ -184,7 +184,7 @@ empEdge <- function(dat, a = NULL, side = "two-sided", type = NULL,
       return(co$pval)
     }
     
-    fbay <- limma::ebayes(fit)                           
+    fbay <- limma::eBayes(fit)                           
     s20 <- fbay$s2.prior
     d0  <- fbay$df.prior
     if (is.infinite(d0)) {

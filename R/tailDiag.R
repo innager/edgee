@@ -17,7 +17,7 @@
 #' If values for \code{stats} are calculated from a sample and \code{type != 
 #' "short"}, it is recommended that \code{smpStats()} is used to create 
 #' \code{stats} to make sure that all the necessary statsitics are provided and 
-#' are not searched for in global environment.
+#' are not searched for in parent environments.
 #' 
 #' @param stats named vector of distribution parameters or estimates needed for 
 #'   Edgeworth expansion. If no names for the vector are provided and the type

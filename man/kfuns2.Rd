@@ -15,38 +15,203 @@
 \alias{K61two}
 \title{\code{k()} functions for Edgeworth expansions - two-sample}
 \usage{
-K12two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K12two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K13two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K13two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K21two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K21two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K22two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K22two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K23two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K23two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K31two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K31two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K32two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K32two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K41two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K41two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K42two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K42two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K51two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K51two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 
-K61two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6, mu_y2, mu_y3,
-  mu_y4, mu_y5, mu_y6)
+K61two(
+  A,
+  B_x,
+  B_y,
+  b_x,
+  b_y,
+  mu_x2,
+  mu_x3,
+  mu_x4,
+  mu_x5,
+  mu_x6,
+  mu_y2,
+  mu_y3,
+  mu_y4,
+  mu_y5,
+  mu_y6
+)
 }
 \arguments{
 \item{A}{value of \code{A}.}
@@ -97,5 +262,7 @@ K32two(A, B_x, B_y, b_x, b_y, mu_x2, mu_x3, mu_x4, mu_x5, mu_x6,
                               mu_y2, mu_y3, mu_y4, mu_y5, mu_y6)
 }
 \seealso{
-Other \code{k()} functions: \code{\link{kfuns1}}
+Other \code{k()} functions: 
+\code{\link{kfuns1}}
 }
+\concept{\code{k()} functions}

@@ -4,8 +4,16 @@
 \alias{makeFx}
 \title{Make Edgeworth expansions}
 \usage{
-makeFx(stats, n, r = NULL, type = "short", base = "normal", df = NULL,
-  moder = FALSE, verbose = TRUE)
+makeFx(
+  stats,
+  n,
+  r = NULL,
+  type = "short",
+  base = "normal",
+  df = NULL,
+  moder = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{stats}{named vector of distribution parameters or estimates needed for 
@@ -80,7 +88,7 @@ not need to pass it to the resulting function.
 }
 \examples{
 n <- 10                 # sample size
-# Gamma distribution with shape parameter \\code{shp}
+# Gamma distribution with shape parameter \code{shp}
 shp <- 3
 ord <- 3:6              # orders of scaled cumulants
 lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)

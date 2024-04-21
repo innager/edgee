@@ -14,8 +14,23 @@ Ft2gen(x, n, k12, k22, k31, k41, r, norm = TRUE, df = NULL)
 
 Ft3gen(x, n, k12, k13, k22, k31, k32, k41, k51, r, norm = TRUE, df = NULL)
 
-Ft4gen(x, n, k12, k13, k22, k23, k31, k32, k41, k42, k51, k61, r, norm = TRUE,
-  df = NULL)
+Ft4gen(
+  x,
+  n,
+  k12,
+  k13,
+  k22,
+  k23,
+  k31,
+  k32,
+  k41,
+  k42,
+  k51,
+  k61,
+  r,
+  norm = TRUE,
+  df = NULL
+)
 }
 \arguments{
 \item{x}{numeric vector of quantiles of sampling distribution.}

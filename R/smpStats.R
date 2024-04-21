@@ -61,7 +61,7 @@
 #'   dat[1:ns, ] <- dat[1:ns, ] - shifts
 #'   # estimate prior information
 #'   fit <- limma::lmFit(dat, rep(1, n))
-#'   fbay <- limma::ebayes(fit)
+#'   fbay <- limma::eBayes(fit)
 #'   # look at one feature (row of data)
 #'   i <- 625
 #'   smpStats(dat[i, ], moder = TRUE, d0 = fbay$df.prior, s20 = fbay$s2.prior, 

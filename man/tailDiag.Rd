@@ -4,8 +4,16 @@
 \alias{tailDiag}
 \title{Tail diagnostic for Edgeworth expansions}
 \usage{
-tailDiag(stats, n, type = "short", df = NULL, moder = FALSE,
-  ncheck = 30, lim = c(1, 7), verbose = TRUE)
+tailDiag(
+  stats,
+  n,
+  type = "short",
+  df = NULL,
+  moder = FALSE,
+  ncheck = 30,
+  lim = c(1, 7),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{stats}{named vector of distribution parameters or estimates needed for 
@@ -76,11 +84,11 @@ used.
 If values for \code{stats} are calculated from a sample and \code{type != 
 "short"}, it is recommended that \code{smpStats()} is used to create 
 \code{stats} to make sure that all the necessary statsitics are provided and 
-are not searched for in global environment.
+are not searched for in parent environments.
 }
 \examples{
 n <- 10                 # sample size
-# Gamma distribution with shape parameter \\code{shp}
+# Gamma distribution with shape parameter \code{shp}
 shp <- 3
 ord <- 3:6              # orders of scaled cumulants
 lambdas <- factorial(ord - 1)/shp^((ord - 2)/2)
